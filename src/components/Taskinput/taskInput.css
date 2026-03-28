@@ -1,0 +1,8 @@
+.create-task{
+    width: 70%;
+    padding: 0.4rem;
+    background-color: #F1F4F9;
+    border-color: transparent;
+    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
+    
+}

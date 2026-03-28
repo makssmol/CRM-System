@@ -1,0 +1,54 @@
+.create{
+    font-family: 'Roboto', 'sans-serif';
+    padding: 0.5rem 2rem;
+    color: white;
+    background-color: #5393FF;
+    border-color: transparent;
+    border-radius: 6px;
+    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.delete{
+    color: white;
+    background-color: red;
+    border-color: transparent;
+    border-radius: 4px;
+    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
+    display: flex;
+}
+
+.delete svg{
+    width: 1.6rem;
+    align-items: center;
+}
+
+.redact{
+    color: white;
+    background-color: #5393FF;
+    border-color: transparent;
+    border-radius: 4px;
+    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
+    display: flex;
+}
+
+.redact svg{
+    width: 1.6rem;
+    align-items: center;
+}
+
+.tab-button{
+    background-color: transparent;
+    color: #999A9E;
+    border-color: transparent;
+    font-size: 1.2rem;
+}
+
+.active{
+    text-decoration: underline;
+    color: #80D7FA;
+    background-color: transparent;
+    
+}
+
+
+

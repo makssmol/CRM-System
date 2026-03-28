@@ -1,0 +1,7 @@
+.layout{
+    width: 100%;
+    min-height: 100vh;
+    text-align: center;
+    position: fixed;
+    background-color: #FFFAF0;
+}
