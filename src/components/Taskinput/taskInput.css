@@ -4,5 +4,13 @@
     background-color: #F1F4F9;
     border-color: transparent;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
-    
+}
+
+.tasks-input{
+    width: 70%;
+    background-color: transparent;
+    border-color: transparent;
+    /* margin: 0; */
+    padding: 0;
+    border: 0;
 }

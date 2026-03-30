@@ -8,6 +8,12 @@
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
+.create:hover{
+    background-color: #4185fb;
+    color: rgb(228, 227, 227);
+}
+
+
 .delete{
     color: white;
     background-color: red;
@@ -15,6 +21,11 @@
     border-radius: 4px;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
     display: flex;
+}
+
+.delete:hover{
+    background-color: rgb(224, 2, 2);
+    color: rgb(228, 227, 227);
 }
 
 .delete svg{
@@ -29,6 +40,11 @@
     border-radius: 4px;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
     display: flex;
+}
+
+.redact:hover{
+    background-color: #4185fb;
+    color: rgb(228, 227, 227);
 }
 
 .redact svg{
