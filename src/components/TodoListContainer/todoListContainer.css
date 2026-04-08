@@ -1,71 +1,75 @@
-.todo{
-    width: 28rem;
-    max-width: 80%;
-    margin: 20px auto 20px auto;
-    background-color: #F1F4F9;
-    text-align: center;
-    padding: 1rem;
-    border-radius: 6px;
-    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
+.todo {
+  width: 28rem;
+  max-width: 80%;
+  margin: 20px auto 20px auto;
+  background-color: #f1f4f9;
+  text-align: center;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-.header{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    gap: 10px;
+.content {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
 }
 
-.content{
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
+.tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 1rem;
 }
 
-.tabs{
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: center;
-    gap: 3rem;
-    margin-top:1rem;
+.task {
+  display: flex;
+  background-color: white;
+  border-radius: 6px;
+  justify-content: space-between;
+  padding: 1rem;
+  margin: 0.5rem;
+  box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.2);
 }
 
-.task{
-    display: flex;
-    background-color: white;
-    border-radius: 6px;
-    justify-content: space-between;
-    padding: 1rem;
-    margin: 0.5rem;
-    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.2);
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
 }
 
-.task-main{
-    display: flex;
-    align-items: center;
-    gap: 1rem;
+.task-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
-.task-main .tasks-input{
-    align-items: center;
+.task-main .tasks-input {
+  align-items: center;
 }
 
-.task-buttons{
-    display: flex;
-    gap: 1rem;
+.task-buttons {
+  display: flex;
+  gap: 1rem;
 }
 
-
-.task p{
-    display: inline;
-    margin: 0;
-    color: rgb(45, 45, 45);
-}
-
-.error{
- max-width: 30rem;
+.error {
+  max-width: 30rem;
   margin: 1rem auto;
   padding: 1rem;
   background-color: #f4c7c7;
   color: #3e0505;
+  border-radius: 6px;
+  box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 30rem) {
+  .tabs {
+    gap: 0.5rem;
+  }
+  .error {
+    max-width: 20rem;
+  }
 }

@@ -9,10 +9,10 @@
   margin: 0;
  }
 
-
-/* main{
-  background-color: rgb(252, 239, 239);
-  display: absolute;
-  width: 100%;
-  height: auto;
-} */
+.valid-input{
+  display: block;
+  margin: 0;
+  color: rgb(187, 50, 50);
+  font-weight: 500;
+  
+}

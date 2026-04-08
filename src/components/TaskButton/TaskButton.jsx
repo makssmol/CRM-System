@@ -1,15 +1,21 @@
-import './taskButton.css'
- 
+import "./taskButton.css";
+
 export function TaskButton({
-  variant = 'create',
+  variant = "create",
+  type = "button",
   onConfirm,
   selected,
   children,
-  taskObject
- }) {
-  // console.log(taskObject)
+  taskIndex,
+  taskBody,
+}) {
   return (
-    <button  onClick={()=> onConfirm(taskObject)} className={selected ? variant + ' active' : variant}>{children}</button>
+    <button
+      type={type}
+      onClick={() => onConfirm && onConfirm(taskIndex, taskBody)}
+      className={selected ? variant + " active" : variant}
+    >
+      {children}
+    </button>
   );
 }
-

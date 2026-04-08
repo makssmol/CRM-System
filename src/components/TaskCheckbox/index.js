@@ -1,1 +1,1 @@
-export * from "./TaskCheckbox"
+export * from "./TaskCheckbox";

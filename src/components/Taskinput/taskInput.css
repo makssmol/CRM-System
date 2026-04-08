@@ -1,16 +1,45 @@
 .create-task{
     width: 70%;
     padding: 0.4rem;
-    background-color: #F1F4F9;
+    background-color: transparent;
     border-color: transparent;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
 }
+
+/* .create-task:invalid{
+    border-color: rgb(243, 145, 145);
+    background-color: #f5d1d1;
+} */
 
 .tasks-input{
     width: 70%;
     background-color: transparent;
     border-color: transparent;
-    /* margin: 0; */
     padding: 0;
     border: 0;
+}
+
+.completed{
+    width: 70%;
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+    border: 0;
+    text-decoration: line-through;
+    color: rgb(146, 146, 146);
+}
+
+.edit-input{
+    width: 70%;
+    background-color: transparent;
+    border-color: transparent;
+    padding: 0;
+    border: 0;
+    color: red;
+}
+
+@media (max-width: 30rem) {
+ .create-task{
+    width: 60%;
+ }   
 }

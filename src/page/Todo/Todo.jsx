@@ -1,114 +1,112 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   TodoListContainer,
   TaskButton,
   TaskInput,
   Tasks,
   TaskError,
+  TaskForm,
 } from "../../components";
-import { createNewTask } from "../../util/http";
+import { useTodo } from "../../hooks";
 
 export function Todo() {
-  const [isFetching, setIsFetching] = useState(false);
   const [selectedTask, setSelectedTask] = useState("all");
-  const [taskObject, setTaskObject] = useState({});
-  const [error, setError] = useState();
-  const [newTask, setNewTask] = useState({});
-  
-  console.log("newTask1: ", newTask);
-
-  function handleSelect(status) {
-    setSelectedTask(status);
-  }
-
-  async function fetchTasks(selectedTask) {
-    setIsFetching(true);
-
-    try {
-      const response = await fetch(
-        `https://easydev.club/api/v1/todos?filter=${selectedTask}`,
-      );
-      const resData = await response.json();
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch tasks");
-      }
-      setTaskObject(resData);
-      // console.log(resData);
-    } catch (error) {
-      setError(error);
-    }
-    setIsFetching(false);
-  }
-
-  useEffect(() => {
-    fetchTasks(selectedTask);
-  }, [selectedTask]);
+  const [taskBody, setTaskBody] = useState({
+    isDone: false,
+    title: "",
+  });
+  const [isValid, setIsValid] = useState("");
+  const {
+    task,
+    info,
+    isFetching,
+    error,
+    deleteTaskbyId,
+    addTask,
+    editTaskById,
+    editingId,
+    setEditingId,
+    handleEditConfirmation,
+    markTaskForCompletion,
+  } = useTodo(selectedTask);
 
   function handleInputChange(title) {
-    setNewTask(() => {
-      return {
-        isDone: true,
+    if (title.length >= 64) {
+      setIsValid("Максимальная длина текста 64 символа");
+    } else if (title.length < 2) {
+      setIsValid("Минимальная длина текста 2 символа");
+    } else if (title.length === "") {
+      setIsValid("Это поле не может быть пустым");
+    } else {
+      setIsValid("");
+      setTaskBody({ isDone: false, title });
+    }
+  }
+
+  function handleAddTask(_, taskObject) {
+    addTask(taskObject);
+  }
+
+  function handleEdit(taskIndex, taskObject) {
+    editTaskById(taskIndex, taskObject);
+    setEditingId(null);
+  }
+
+  function handleTaskCompletion(taskIndex, title, isComplete) {
+    if (taskIndex) {
+      markTaskForCompletion(taskIndex, {
+        isDone: !isComplete,
         title: `${title}`,
-      };
-    });
-  }
-
-  function handleConfirmTask(newTask) {
-    createNewTask(newTask);
-  }
-
-  // console.log(taskObject);
-  if (!taskObject.data) {
-    if (error) {
-      return <TaskError title="An error occurred" message={error.message} />;
+      });
+    } else {
+      return;
     }
+  }
+
+  if (error) {
+    console.log("error: ", error);
+    return <TaskError title="An error occurred" message={error} />;
+  }
+  if (!task || !info) {
     return <p>No tasks available</p>;
   }
 
-  if (!taskObject.info) {
-    if (error) {
-      return <TaskError title="An error occurred" message={error.message} />;
-    }
-    return <p>No tasks available</p>;
-  }
-  console.log("info: ", taskObject.info);
-
-  const taskTabs = Object.entries(taskObject.info).map(
-    ([status, values], index) => ({
-      id: index,
-      status,
-      values,
-    }),
-  );
-
-  console.log("taskTabs: ", taskTabs);
-  console.log("newTask2: ", newTask);
   return (
     <TodoListContainer variant="todo">
-      <TodoListContainer variant="header">
+      <TaskForm variant="header" onSub={handleAddTask} taskObject={taskBody}>
         <TaskInput inputVariant="create-task" onUserInput={handleInputChange} />
-        <TaskButton onConfirm={handleConfirmTask} taskObject={newTask}>
-          Add
-        </TaskButton>
-      </TodoListContainer>
+        <TaskButton type="submit">Add</TaskButton>
+        {isValid && <p className="valid-input">{isValid}</p>}
+      </TaskForm>
       <TodoListContainer variant="content">
         <TodoListContainer variant="tabs">
-          {taskTabs.map((tab) => (
+          {Object.entries(info).map(([status, values], index) => (
             <TaskButton
-              key={tab.id}
+              key={index}
               variant="tab-button"
-              selected={selectedTask === tab.status}
-              onConfirm={() => handleSelect(tab.status)}
+              selected={selectedTask === status}
+              onConfirm={() => setSelectedTask(status)}
             >
-              {tab.status}({tab.values})
+              {status.trim()}({values})
             </TaskButton>
           ))}
         </TodoListContainer>
         {isFetching && <p>Tasks are loading</p>}
         {!isFetching &&
-          taskObject.data.map((data) => (
-            <Tasks key={data.id} taskIndex={data.id} title={data.title} />
+          task.map((data) => (
+            <Tasks
+              key={data.id}
+              taskIndex={data.id}
+              title={data.title}
+              onDelete={deleteTaskbyId}
+              onEdit={handleEdit}
+              onEditConfirm={handleEditConfirmation}
+              isEditing={editingId === data.id}
+              onCheck={handleTaskCompletion}
+              isComplete={data.isDone}
+              isValid={isValid}
+              setIsValid={setIsValid}
+            />
           ))}
       </TodoListContainer>
     </TodoListContainer>

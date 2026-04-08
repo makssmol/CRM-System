@@ -6,6 +6,7 @@
     border-color: transparent;
     border-radius: 6px;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
+    display: block;
 }
 
 .create:hover{
@@ -66,5 +67,40 @@
     
 }
 
+.confirm-action{
+    color: white;
+    background-color: rgb(148, 218, 43);
+    border-color: transparent;
+    border-radius: 4px;
+    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
+    display: flex;
+}
 
+.confirm-action:hover{
+    background-color:  rgb(126, 184, 39);
+    color: rgb(228, 227, 227);
+}
 
+.confirm-action svg{
+    width: 1.6rem;
+    align-items: center;
+}
+
+.cancel-action{
+    color: white;
+    background-color: red;
+    border-color: transparent;
+    border-radius: 4px;
+    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
+    display: flex;
+}
+
+.cancel-action:hover{
+    background-color: rgb(224, 2, 2);
+    color: rgb(228, 227, 227);
+}
+
+.cancel-action svg{
+    width: 1.6rem;
+    align-items: center;
+}

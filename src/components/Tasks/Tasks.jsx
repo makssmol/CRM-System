@@ -2,48 +2,93 @@ import { TodoListContainer } from "../TodoListContainer";
 import { TaskButton } from "../TaskButton";
 import { TaskCheckbox } from "../TaskCheckbox";
 import { TaskInput } from "../Taskinput";
+import { TaskForm } from "../TaskForm";
+import { Icon } from "../Icon";
+import { useState } from "react";
 
-export function Tasks({ taskIndex, title}) {
+export function Tasks({
+  taskIndex,
+  title,
+  onDelete,
+  onEdit,
+  onEditConfirm,
+  isEditing,
+  onCheck,
+  isComplete,
+}) {
+  const [isValid, setIsValid] = useState("");
+  const [editedTitle, setEditedTitle] = useState(title);
+  function handleEditInput(title) {
+    if (title.length >= 64) {
+      setIsValid("Максимальная длина текста 64 символа");
+    } else if (title.length < 2 && title.length > 0) {
+      setIsValid("Минимальная длина текста 2 символа");
+    } else if (title === "") {
+      setIsValid("Это поле не может быть пустым");
+    } else {
+      setIsValid("");
+      setEditedTitle(title);
+    }
+  }
+
   return (
-    <TodoListContainer variant="task">
-      <TodoListContainer variant="task-main">
-        <TaskCheckbox />
-        <TaskInput title={title}  inputVariant = "tasks-input"/>
-      </TodoListContainer>
-      <TodoListContainer variant="task-buttons">
-        <TaskButton variant="redact">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"
+    <>
+      <TaskForm
+        variant="task"
+        onSub={onEdit}
+        taskIndex={taskIndex}
+        taskObject={{ title: editedTitle, isDone: isComplete }}
+      >
+        <TodoListContainer variant="task-main">
+          <TaskCheckbox
+            onCheck={onCheck}
+            title={title}
+            isComplete={isComplete}
+            taskIndex={taskIndex}
+          />
+          {!isEditing ? (
+            <TaskInput
+              title={title}
+              inputVariant="tasks-input"
+              isComplete={isComplete}
             />
-          </svg>
-        </TaskButton>
-        <TaskButton variant="delete">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            strokeWidth={1.5}
-            stroke="currentColor"
-            className="size-6"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0"
+          ) : (
+            <TaskInput
+              title={title}
+              inputVariant="edit-input"
+              onUserInput={handleEditInput}
             />
-          </svg>
-        </TaskButton>
-      </TodoListContainer>
-    </TodoListContainer>
+          )}
+        </TodoListContainer>
+        {isEditing ? (
+          <TodoListContainer variant="task-buttons">
+            <TaskButton variant="confirm-action" type="submit">
+              <Icon name="confirm" />
+            </TaskButton>
+            <TaskButton variant="cancel-action" onConfirm={onEditConfirm}>
+              <Icon name="cancel" />
+            </TaskButton>
+          </TodoListContainer>
+        ) : (
+          <TodoListContainer variant="task-buttons">
+            <TaskButton
+              variant="redact"
+              onConfirm={onEditConfirm}
+              taskIndex={taskIndex}
+            >
+              <Icon name="edit" />
+            </TaskButton>
+            <TaskButton
+              variant="delete"
+              onConfirm={onDelete}
+              taskIndex={taskIndex}
+            >
+              <Icon name="delete" />
+            </TaskButton>
+          </TodoListContainer>
+        )}
+      </TaskForm>
+      {isValid && <p className="valid-input">{isValid}</p>}
+    </>
   );
 }
