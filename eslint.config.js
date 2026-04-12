@@ -35,9 +35,14 @@ export default [
         },
       ],
       "no-undef": "error",
-      "no-console": "warn",
+      "no-": "warn",
       "react-hooks/exhaustive-deps": "warn",
-      "prettier/prettier": "error",
+      "prettier/prettier": [
+        "error",
+        {
+          endOfLine: "auto",
+        },
+      ],
     },
   },
 ];

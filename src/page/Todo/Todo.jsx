@@ -6,16 +6,18 @@ import {
   Tasks,
   TaskError,
   TaskForm,
+  ValidationInfo,
 } from "../../components";
-import { useTodo } from "../../hooks";
+import { useTodo, useValidation } from "../../hooks";
 
 export function Todo() {
   const [selectedTask, setSelectedTask] = useState("all");
+
   const [taskBody, setTaskBody] = useState({
     isDone: false,
     title: "",
   });
-  const [isValid, setIsValid] = useState("");
+  const { validation, validateTitle, focus, isFocus } = useValidation();
   const {
     task,
     info,
@@ -31,16 +33,11 @@ export function Todo() {
   } = useTodo(selectedTask);
 
   function handleInputChange(title) {
-    if (title.length >= 64) {
-      setIsValid("Максимальная длина текста 64 символа");
-    } else if (title.length < 2) {
-      setIsValid("Минимальная длина текста 2 символа");
-    } else if (title.length === "") {
-      setIsValid("Это поле не может быть пустым");
-    } else {
-      setIsValid("");
-      setTaskBody({ isDone: false, title });
+    if (title.length > 64) {
+      return;
     }
+    validateTitle(title);
+    setTaskBody({ isDone: false, title });
   }
 
   function handleAddTask(_, taskObject) {
@@ -64,7 +61,6 @@ export function Todo() {
   }
 
   if (error) {
-    console.log("error: ", error);
     return <TaskError title="An error occurred" message={error} />;
   }
   if (!task || !info) {
@@ -74,9 +70,17 @@ export function Todo() {
   return (
     <TodoListContainer variant="todo">
       <TaskForm variant="header" onSub={handleAddTask} taskObject={taskBody}>
-        <TaskInput inputVariant="create-task" onUserInput={handleInputChange} />
-        <TaskButton type="submit">Add</TaskButton>
-        {isValid && <p className="valid-input">{isValid}</p>}
+        <TaskInput
+          inputVariant="create-task"
+          onUserInput={handleInputChange}
+          isFocus={isFocus}
+        />
+        <TaskButton type="submit" isValid={validation.isValid}>
+          Add
+        </TaskButton>
+        {focus && !validation.isValid && (
+          <ValidationInfo>{validation.message}</ValidationInfo>
+        )}
       </TaskForm>
       <TodoListContainer variant="content">
         <TodoListContainer variant="tabs">
@@ -104,8 +108,6 @@ export function Todo() {
               isEditing={editingId === data.id}
               onCheck={handleTaskCompletion}
               isComplete={data.isDone}
-              isValid={isValid}
-              setIsValid={setIsValid}
             />
           ))}
       </TodoListContainer>

@@ -8,12 +8,17 @@ export function TaskButton({
   children,
   taskIndex,
   taskBody,
+  isValid = true,
 }) {
+  if(!isValid){
+    variant += " block"
+  }
   return (
     <button
       type={type}
-      onClick={() => onConfirm && onConfirm(taskIndex, taskBody)}
+      onClick={() => onConfirm?.(taskIndex, taskBody)}
       className={selected ? variant + " active" : variant}
+      disabled={!isValid}
     >
       {children}
     </button>

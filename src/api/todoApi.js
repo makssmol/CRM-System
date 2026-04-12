@@ -3,7 +3,6 @@ export async function fetchTasks(selectedTask) {
     `https://easydev.club/api/v1/todos?filter=${selectedTask}`
   );
   const resData = await response.json();
-  console.log("resData😒😒: ", resData);
 
   if (!response.ok) {
     throw new Error("Failed to display task");
@@ -20,7 +19,6 @@ export async function createNewTask(newTask) {
     },
   });
   const resData = await response.json();
-  console.log("resData: ", resData);
 
   if (!response.ok) {
     throw new Error("Failed to add new task");
@@ -30,7 +28,6 @@ export async function createNewTask(newTask) {
 }
 
 export async function deleteTask(taskIndex) {
-  console.log("taskIndex: ", taskIndex);
 
   const response = await fetch(
     `https://easydev.club/api/v1/todos/${taskIndex}`,
@@ -43,7 +40,6 @@ export async function deleteTask(taskIndex) {
     }
   );
   const resData = response;
-  console.log("deleteData: ", resData);
 
   if (!response.ok) {
     throw new Error("Failed to delete task");
@@ -53,8 +49,6 @@ export async function deleteTask(taskIndex) {
 }
 
 export async function editTask(taskIndex, taskObject) {
-  console.log("taskObject: ", taskObject);
-  console.log("taskIndex: ", taskIndex);
 
   const response = await fetch(
     `https://easydev.club/api/v1/todos/${taskIndex}`,
@@ -67,7 +61,6 @@ export async function editTask(taskIndex, taskObject) {
     }
   );
   const resData = response;
-  console.log("editedData: ", resData);
 
   if (!response.ok) {
     throw new Error("Failed to edit task");
@@ -77,8 +70,6 @@ export async function editTask(taskIndex, taskObject) {
 }
 
 export async function taskCompletion(taskIndex, taskObject) {
-  console.log("taskObject: ", taskObject);
-  console.log("taskIndex: ", taskIndex);
 
   const response = await fetch(
     `https://easydev.club/api/v1/todos/${taskIndex}`,
@@ -91,7 +82,6 @@ export async function taskCompletion(taskIndex, taskObject) {
     }
   );
   const resData = response;
-  console.log("editedData: ", resData);
 
   if (!response.ok) {
     throw new Error("Failed to mark task completion");

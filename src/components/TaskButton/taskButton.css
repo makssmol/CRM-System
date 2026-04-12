@@ -104,3 +104,11 @@
     width: 1.6rem;
     align-items: center;
 }
+
+.block{
+    background-color: gray;
+}
+
+.block:hover{
+    background-color: rgb(108, 107, 107);
+}

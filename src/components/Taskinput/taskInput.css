@@ -6,11 +6,6 @@
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
 }
 
-/* .create-task:invalid{
-    border-color: rgb(243, 145, 145);
-    background-color: #f5d1d1;
-} */
-
 .tasks-input{
     width: 70%;
     background-color: transparent;

@@ -5,3 +5,4 @@ export * from "./TodoListContainer";
 export * from "./Tasks";
 export * from "./TaskError";
 export * from "./TaskForm";
+export * from "./ValidationInfo";
