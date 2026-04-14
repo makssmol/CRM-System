@@ -1,11 +1,11 @@
 import { TaskLayout } from "./components";
-import { Todo } from "./page/Todo";
+import { TodoListPage } from "./page/TodoListPage";
 import "./App.css";
 
 function App() {
   return (
     <TaskLayout>
-      <Todo />
+      <TodoListPage />
     </TaskLayout>
   );
 }

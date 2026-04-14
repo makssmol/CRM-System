@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState } from "react";
 
 export function useValidation() {
   const [validation, setValidation] = useState({
@@ -7,7 +7,7 @@ export function useValidation() {
   });
   const [focus, isFocus] = useState(false);
 
-  const validateTitle = useCallback((title) => {
+  const validateTitle = (title) => {
     const trimmed = title.trim();
 
     if (trimmed === "") {
@@ -35,14 +35,14 @@ export function useValidation() {
       message: "",
     });
     return true;
-  }, []);
+  };
 
-  const resetValidation = useCallback(() => {
+  const resetValidation = () => {
     setValidation({
       isValid: true,
       message: "",
     });
-  }, []);
+  };
 
   return {
     validation,

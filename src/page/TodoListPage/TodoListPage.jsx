@@ -1,16 +1,14 @@
 import { useState } from "react";
 import {
+  AddTask,
+  TaskTabs,
+  TodoList,
   TodoListContainer,
-  TaskButton,
-  TaskInput,
-  Tasks,
   TaskError,
-  TaskForm,
-  ValidationInfo,
 } from "../../components";
 import { useTodo, useValidation } from "../../hooks";
 
-export function Todo() {
+export function TodoListPage() {
   const [selectedTask, setSelectedTask] = useState("all");
 
   const [taskBody, setTaskBody] = useState({
@@ -69,47 +67,30 @@ export function Todo() {
 
   return (
     <TodoListContainer variant="todo">
-      <TaskForm variant="header" onSub={handleAddTask} taskObject={taskBody}>
-        <TaskInput
-          inputVariant="create-task"
-          onUserInput={handleInputChange}
-          isFocus={isFocus}
-        />
-        <TaskButton type="submit" isValid={validation.isValid}>
-          Add
-        </TaskButton>
-        {focus && !validation.isValid && (
-          <ValidationInfo>{validation.message}</ValidationInfo>
-        )}
-      </TaskForm>
+      <AddTask
+        onSub={handleAddTask}
+        taskObject={taskBody}
+        onUserInput={handleInputChange}
+        isFocus={isFocus}
+        isValid={validation.isValid}
+        focus={focus}
+        validationMessage={validation.message}
+      />
       <TodoListContainer variant="content">
-        <TodoListContainer variant="tabs">
-          {Object.entries(info).map(([status, values], index) => (
-            <TaskButton
-              key={index}
-              variant="tab-button"
-              selected={selectedTask === status}
-              onConfirm={() => setSelectedTask(status)}
-            >
-              {status.trim()}({values})
-            </TaskButton>
-          ))}
-        </TodoListContainer>
-        {isFetching && <p>Tasks are loading</p>}
-        {!isFetching &&
-          task.map((data) => (
-            <Tasks
-              key={data.id}
-              taskIndex={data.id}
-              title={data.title}
-              onDelete={deleteTaskbyId}
-              onEdit={handleEdit}
-              onEditConfirm={handleEditConfirmation}
-              isEditing={editingId === data.id}
-              onCheck={handleTaskCompletion}
-              isComplete={data.isDone}
-            />
-          ))}
+        <TaskTabs
+          info={info}
+          selectedTask={selectedTask}
+          setSelectedTask={setSelectedTask}
+        />
+        <TodoList
+          isFetching={isFetching}
+          task={task}
+          onDelete={deleteTaskbyId}
+          onEdit={handleEdit}
+          onEditConfirm={handleEditConfirmation}
+          editingId={editingId}
+          onCheck={handleTaskCompletion}
+        />
       </TodoListContainer>
     </TodoListContainer>
   );
