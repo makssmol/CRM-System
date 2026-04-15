@@ -1,6 +1,4 @@
-import { TodoListContainer } from "../TodoListContainer";
-import { TaskCheckbox } from "../TaskCheckbox";
-import { TaskInput } from "../Taskinput";
+import { Checkbox, Input, Container } from "../../ui";
 
 export function TodoItemInputs({
   isEditing,
@@ -12,27 +10,27 @@ export function TodoItemInputs({
   isFocus
 }) {
   return (
-    <TodoListContainer variant="task-main">
-      <TaskCheckbox
+    <Container variant="task-main">
+      <Checkbox
         onCheck={onCheck}
         title={title}
         isComplete={isComplete}
         taskIndex={taskIndex}
       />
       {!isEditing ? (
-        <TaskInput
+        <Input
           title={title}
           inputVariant="tasks-input"
           isComplete={isComplete}
         />
       ) : (
-        <TaskInput
+        <Input
           title={title}
           inputVariant="edit-input"
           onUserInput={onUserInput}
           isFocus={isFocus}
         />
       )}
-    </TodoListContainer>
+    </Container>
   );
 }

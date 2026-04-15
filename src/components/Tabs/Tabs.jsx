@@ -1,19 +1,18 @@
-import { TodoListContainer } from "../TodoListContainer";
-import { TaskButton } from "../TaskButton";
+import { Button, Container } from "../../ui";
 
-export function TaskTabs({ info, selectedTask, setSelectedTask }) {
+export function Tabs({ info, selectedTask, setSelectedTask }) {
   return (
-    <TodoListContainer variant="tabs">
+    <Container variant="tabs">
       {Object.entries(info).map(([status, values], index) => (
-        <TaskButton
+        <Button
           key={index}
           variant="tab-button"
           selected={selectedTask === status}
           onConfirm={() => setSelectedTask(status)}
         >
           {status.trim()}({values})
-        </TaskButton>
+        </Button>
       ))}
-    </TodoListContainer>
+    </Container>
   );
 }

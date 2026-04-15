@@ -1,6 +1,5 @@
-import { TaskForm } from "../TaskForm";
-import { TaskInput } from "../Taskinput";
-import { TaskButton } from "../TaskButton";
+import { Form } from "../Form";
+import { Button, Input } from "../../ui";
 import { ValidationInfo } from "../ValidationInfo";
 
 export function AddTask({
@@ -13,18 +12,18 @@ export function AddTask({
   validationMessage,
 }) {
   return (
-    <TaskForm variant="header" onSub={onSub} taskObject={taskObject}>
-      <TaskInput
+    <Form variant="header" onSub={onSub} taskObject={taskObject}>
+      <Input
         inputVariant="create-task"
         onUserInput={onUserInput}
         isFocus={isFocus}
       />
-      <TaskButton type="submit" isValid={isValid}>
+      <Button type="submit" isValid={isValid}>
         Add
-      </TaskButton>
+      </Button>
       {focus && !isValid && (
         <ValidationInfo>{validationMessage}</ValidationInfo>
       )}
-    </TaskForm>
+    </Form>
   );
 }

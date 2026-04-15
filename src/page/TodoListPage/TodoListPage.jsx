@@ -1,11 +1,11 @@
 import { useState } from "react";
 import {
   AddTask,
-  TaskTabs,
+  Tabs,
   TodoList,
-  TodoListContainer,
-  TaskError,
+  Error,
 } from "../../components";
+import { Container } from "../../ui";
 import { useTodo, useValidation } from "../../hooks";
 
 export function TodoListPage() {
@@ -59,14 +59,14 @@ export function TodoListPage() {
   }
 
   if (error) {
-    return <TaskError title="An error occurred" message={error} />;
+    return <Error title="An error occurred" message={error} />;
   }
   if (!task || !info) {
     return <p>No tasks available</p>;
   }
 
   return (
-    <TodoListContainer variant="todo">
+    <Container variant="todo">
       <AddTask
         onSub={handleAddTask}
         taskObject={taskBody}
@@ -76,8 +76,8 @@ export function TodoListPage() {
         focus={focus}
         validationMessage={validation.message}
       />
-      <TodoListContainer variant="content">
-        <TaskTabs
+      <Container variant="content">
+        <Tabs
           info={info}
           selectedTask={selectedTask}
           setSelectedTask={setSelectedTask}
@@ -91,7 +91,7 @@ export function TodoListPage() {
           editingId={editingId}
           onCheck={handleTaskCompletion}
         />
-      </TodoListContainer>
-    </TodoListContainer>
+      </Container>
+    </Container>
   );
 }

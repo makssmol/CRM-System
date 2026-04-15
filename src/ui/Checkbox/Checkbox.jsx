@@ -1,6 +1,6 @@
-import "./taskCheckbox.css";
+import "./Checkbox.css"
 
-export function TaskCheckbox({
+export function Checkbox({
   variant = "finished",
   isComplete,
   onCheck,

@@ -1,6 +1,6 @@
-import "./taskInput.css";
+import "./Input.css";
 
-export function TaskInput({
+export function Input({
   inputVariant,
   title,
   onUserInput,

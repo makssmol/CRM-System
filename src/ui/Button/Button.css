@@ -1,8 +1,8 @@
 .create{
     font-family: 'Roboto', 'sans-serif';
     padding: 0.5rem 2rem;
-    color: white;
-    background-color: #5393FF;
+    color: var(--primary-btn-color);
+    background-color: var(--primary-btn-bg-color);
     border-color: transparent;
     border-radius: 6px;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
@@ -10,14 +10,14 @@
 }
 
 .create:hover{
-    background-color: #4185fb;
-    color: rgb(228, 227, 227);
+    background-color: var(--primary-btn-hover-bg-color);
+    color: var(--primary-btn-hover-color);
 }
 
 
 .delete{
-    color: white;
-    background-color: red;
+    color: var(--primary-btn-color);
+    background-color: var(--secoundary-btn-bg-color);
     border-color: transparent;
     border-radius: 4px;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
@@ -25,8 +25,8 @@
 }
 
 .delete:hover{
-    background-color: rgb(224, 2, 2);
-    color: rgb(228, 227, 227);
+    background-color: var( --secoundary-btn-hover-bg-color);
+    color: var(--primary-btn-hover-color);
 }
 
 .delete svg{
@@ -35,8 +35,8 @@
 }
 
 .redact{
-    color: white;
-    background-color: #5393FF;
+    color: var(--primary-btn-color);
+    background-color: var(--primary-btn-bg-color);
     border-color: transparent;
     border-radius: 4px;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
@@ -44,8 +44,8 @@
 }
 
 .redact:hover{
-    background-color: #4185fb;
-    color: rgb(228, 227, 227);
+    background-color: var(--primary-btn-hover-bg-color);
+    color: var(--primary-btn-hover-color);
 }
 
 .redact svg{
@@ -55,21 +55,21 @@
 
 .tab-button{
     background-color: transparent;
-    color: #999A9E;
+    color: var(--btn-tab-color);
     border-color: transparent;
     font-size: 1.2rem;
 }
 
 .active{
     text-decoration: underline;
-    color: #80D7FA;
+    color: var(--btn-tab-active-color);
     background-color: transparent;
     
 }
 
 .confirm-action{
-    color: white;
-    background-color: rgb(148, 218, 43);
+    color: var(--primary-btn-color);
+    background-color: var(--btn-confirm-bg-color);
     border-color: transparent;
     border-radius: 4px;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
@@ -77,8 +77,8 @@
 }
 
 .confirm-action:hover{
-    background-color:  rgb(126, 184, 39);
-    color: rgb(228, 227, 227);
+    background-color:  var(--btn-confirm-hover-bg-color);
+    color: var(--primary-btn-hover-color);
 }
 
 .confirm-action svg{
@@ -87,8 +87,8 @@
 }
 
 .cancel-action{
-    color: white;
-    background-color: red;
+    color: var(--primary-btn-color);
+    background-color: var(--secoundary-btn-bg-color);
     border-color: transparent;
     border-radius: 4px;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
@@ -96,8 +96,8 @@
 }
 
 .cancel-action:hover{
-    background-color: rgb(224, 2, 2);
-    color: rgb(228, 227, 227);
+    background-color: var(--secoundary-btn-hover-bg-color);
+    color: var(--primary-btn-hover-color);
 }
 
 .cancel-action svg{
@@ -106,9 +106,9 @@
 }
 
 .block{
-    background-color: gray;
+    background-color: var(--btn-block-bg-color);
 }
 
 .block:hover{
-    background-color: rgb(108, 107, 107);
+    background-color: var(--btn-block-hover-bg-color);
 }

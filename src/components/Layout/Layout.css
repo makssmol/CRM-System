@@ -2,6 +2,6 @@
     width: 100%;
     min-height: 100vh;
     text-align: center;
-    background-color: #FFFAF0;
+    background-color: var(--primary-layout-bg-color);
     position: absolute;
 }

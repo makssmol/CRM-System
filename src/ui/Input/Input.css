@@ -30,7 +30,7 @@
     border-color: transparent;
     padding: 0;
     border: 0;
-    color: red;
+    color: var( --warning-input-color);
 }
 
 @media (max-width: 30rem) {

@@ -1,41 +1,39 @@
-import { TodoListContainer } from "../TodoListContainer";
-import { TaskButton } from "../TaskButton";
-import { Icon } from "../Icon";
+import { Button, Icon, Container} from "../../ui";
 
 
 export function TodoItemButtons({isEditing, isValid, onEditConfirm, taskIndex, onDelete}) {
   return (
     <>
       {isEditing ? (
-        <TodoListContainer variant="task-buttons">
-          <TaskButton
+        <Container variant="task-buttons">
+          <Button
             variant="confirm-action"
             type="submit"
             isValid={isValid}
           >
             <Icon name="confirm" />
-          </TaskButton>
-          <TaskButton variant="cancel-action" onConfirm={onEditConfirm}>
+          </Button>
+          <Button variant="cancel-action" onConfirm={onEditConfirm}>
             <Icon name="cancel" />
-          </TaskButton>
-        </TodoListContainer>
+          </Button>
+        </Container>
       ) : (
-        <TodoListContainer variant="task-buttons">
-          <TaskButton
+        <Container variant="task-buttons">
+          <Button
             variant="redact"
             onConfirm={onEditConfirm}
             taskIndex={taskIndex}
           >
             <Icon name="edit" />
-          </TaskButton>
-          <TaskButton
+          </Button>
+          <Button
             variant="delete"
             onConfirm={onDelete}
             taskIndex={taskIndex}
           >
             <Icon name="delete" />
-          </TaskButton>
-        </TodoListContainer>
+          </Button>
+        </Container>
       )}
     </>
   );

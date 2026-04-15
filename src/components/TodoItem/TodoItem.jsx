@@ -1,6 +1,6 @@
 import { TodoItemButtons } from "../TodoItemButtons";
 import { TodoItemInputs } from "../TodoItemInputs";
-import { TaskForm } from "../TaskForm";
+import { Form } from "../Form";
 import { useState } from "react";
 import { useValidation } from "../../hooks";
 import { ValidationInfo } from "../ValidationInfo";
@@ -24,7 +24,7 @@ export function TodoItem({
 
   return (
     <>
-      <TaskForm
+      <Form
         variant="task"
         onSub={onEdit}
         taskIndex={taskIndex}
@@ -46,7 +46,7 @@ export function TodoItem({
           taskIndex={taskIndex}
           onDelete={onDelete}
         />
-      </TaskForm>
+      </Form>
       {focus && !validation.isValid && (
         <ValidationInfo>{validation.message}</ValidationInfo>
       )}

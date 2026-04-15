@@ -1,6 +1,6 @@
-import "./taskButton.css";
+import "./Button.css";
 
-export function TaskButton({
+export function Button({
   variant = "create",
   type = "button",
   onConfirm,

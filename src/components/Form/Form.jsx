@@ -1,6 +1,6 @@
-import "./taskForm.css";
+import "./Form.css";
 
-export function TaskForm({ variant, children, onSub, taskObject, taskIndex }) {
+export function Form({ variant, children, onSub, taskObject, taskIndex }) {
   return (
     <form
       className={variant}

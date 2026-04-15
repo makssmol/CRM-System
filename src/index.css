@@ -1,12 +1,29 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap");
 
 * {
+  --primary-layout-bg-color: #fffaf0;
+  --primary-todo-bg-color: #f1f4f9;
+  --primary-task-bg-color: white;
+  --primary-btn-color: white;
+  --primary-btn-hover-color: rgb(228, 227, 227);
+  --primary-btn-bg-color: #5393FF;
+  --primary-btn-hover-bg-color: #4185fb;
+  --secoundary-btn-bg-color: red;
+  --secoundary-btn-hover-bg-color: rgb(224, 2, 2);
+  --btn-tab-color: #999A9E;
+  --btn-tab-active-color: #80D7FA;
+  --btn-confirm-bg-color: rgb(148, 218, 43);
+  --btn-confirm-hover-bg-color: rgb(126, 184, 39);
+  --btn-block-bg-color: gray;
+  --btn-block-hover-bg-color: rgb(108, 107, 107);
+  --error-bg-color: #f4c7c7;
+  --warning-input-color: red;
+  --warning-input-validation-color: rgb(187, 50, 50);
+
   box-sizing: border-box;
 }
 
- body{
-  font-family: 'Roboto', 'sans-serif';
+body {
+  font-family: "Roboto", "sans-serif";
   margin: 0;
- }
-
-
+}
