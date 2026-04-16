@@ -27,13 +27,11 @@ export async function createNewTask(newTask) {
   return resData.title;
 }
 
-export async function deleteTask(taskIndex) {
-
+export async function deleteTask(id) {
   const response = await fetch(
-    `https://easydev.club/api/v1/todos/${taskIndex}`,
+    `https://easydev.club/api/v1/todos/${id}`,
     {
       method: "DELETE",
-      body: JSON.stringify(taskIndex),
       headers: {
         "Content-Type": "application/json",
       },
