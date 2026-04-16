@@ -3,8 +3,7 @@ import {
   fetchTasks,
   deleteTask,
   createNewTask,
-  editTask,
-  taskCompletion,
+  changeTask,
 } from "../api";
 
 export function useTodo(filterProps) {
@@ -63,7 +62,7 @@ export function useTodo(filterProps) {
 
   async function editTaskById(taskIndex, taskObject) {
     try {
-      await editTask(taskIndex, taskObject);
+      await changeTask(taskIndex, taskObject);
       await loadTasks(filterProps);
     } catch (error) {
       setError(error.message || "Не удалось отредактировать задачу");
@@ -72,7 +71,7 @@ export function useTodo(filterProps) {
 
   async function markTaskForCompletion(taskIndex, taskObject) {
     try {
-      await taskCompletion(taskIndex, taskObject);
+      await changeTask(taskIndex, taskObject);
       await loadTasks(filterProps);
     } catch (error) {
       setError(error.message || "Не удалось поменять статус задачи");

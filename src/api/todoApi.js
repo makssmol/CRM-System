@@ -46,13 +46,13 @@ export async function deleteTask(id) {
   return resData.title;
 }
 
-export async function editTask(taskIndex, taskObject) {
+export async function changeTask(id, task) {
 
   const response = await fetch(
-    `https://easydev.club/api/v1/todos/${taskIndex}`,
+    `https://easydev.club/api/v1/todos/${id}`,
     {
       method: "PUT",
-      body: JSON.stringify(taskObject),
+      body: JSON.stringify(task),
       headers: {
         "Content-Type": "application/json",
       },
@@ -67,23 +67,3 @@ export async function editTask(taskIndex, taskObject) {
   return resData.title;
 }
 
-export async function taskCompletion(taskIndex, taskObject) {
-
-  const response = await fetch(
-    `https://easydev.club/api/v1/todos/${taskIndex}`,
-    {
-      method: "PUT",
-      body: JSON.stringify(taskObject),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  const resData = response;
-
-  if (!response.ok) {
-    throw new Error("Failed to mark task completion");
-  }
-
-  return resData.title;
-}
