@@ -1,6 +1,6 @@
-export async function fetchTasks(selectedTask) {
+export async function fetchTasks(taskFilter) {
   const response = await fetch(
-    `https://easydev.club/api/v1/todos?filter=${selectedTask}`
+    `https://easydev.club/api/v1/todos?filter=${taskFilter}`
   );
   const resData = await response.json();
 
