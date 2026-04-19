@@ -2,8 +2,6 @@ export * from "./AddTask"
 export * from "./Tabs"
 export * from "./TodoList"
 export * from "./TodoItem";
-export * from "./TodoItemButtons"
-export * from "./TodoItemInputs"
 export * from "./Layout";
 export * from "./Error";
 export * from "./Form";

@@ -1,0 +1,13 @@
+.tabs {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 3rem;
+  margin-top: 1rem;
+}
+
+@media (max-width: 510px) {
+  .tabs {
+    gap: 0.5rem;
+  }
+}

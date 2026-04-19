@@ -1,10 +1,10 @@
-import { Container } from "../../ui";
+import styles from "./Error.module.css"
 
 export function Error({ title, message }) {
   return (
-    <Container variant="error">
+    <div className={styles.error}>
       <h2>{title}</h2>
       <p>{message}</p>
-    </Container>
+    </div>
   );
 }

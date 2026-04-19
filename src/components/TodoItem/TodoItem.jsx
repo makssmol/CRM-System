@@ -1,9 +1,9 @@
-import { TodoItemButtons } from "../TodoItemButtons";
-import { TodoItemInputs } from "../TodoItemInputs";
+import styles from "./TodoItem.module.css";
 import { Form } from "../Form";
 import { useState } from "react";
 import { useValidation } from "../../hooks";
 import { ValidationInfo } from "../ValidationInfo";
+import { Checkbox, Input, Button, Icon } from "../../ui";
 
 export function TodoItem({
   taskIndex,
@@ -25,27 +25,59 @@ export function TodoItem({
   return (
     <>
       <Form
-        variant="task"
         onSub={onEdit}
         taskIndex={taskIndex}
         taskObject={{ title: editedTitle, isDone: isComplete }}
       >
-        <TodoItemInputs
-          onCheck={onCheck}
-          title={title}
-          isComplete={isComplete}
-          taskIndex={taskIndex}
-          isEditing={isEditing}
-          onUserInput={handleEditInput}
-          isFocus={isFocus}
-        />
-        <TodoItemButtons
-          isEditing={isEditing}
-          isValid={validation.isValid}
-          onEditConfirm={onEditConfirm}
-          taskIndex={taskIndex}
-          onDelete={onDelete}
-        />
+        <div className={styles.task}>
+          <div className={styles.task_main}>
+            <Checkbox
+              checked={isComplete}
+              onClick={() => onCheck(taskIndex, title, isComplete)}
+            />
+            {!isEditing ? (
+              <Input
+                title={title}
+                inputVariant="tasks-input"
+                isComplete={isComplete}
+              />
+            ) : (
+              <Input
+                title={title}
+                inputVariant="edit-input"
+                onUserInput={handleEditInput}
+                isFocus={isFocus}
+              />
+            )}
+          </div>
+          {isEditing ? (
+            <div className={styles.task_buttons}>
+              <Button variant="confirm-action" type="submit" isValid={validation.isValid}>
+                <Icon name="confirm" />
+              </Button>
+              <Button variant="cancel-action" onConfirm={onEditConfirm}>
+                <Icon name="cancel" />
+              </Button>
+            </div>
+          ) : (
+            <div className={styles.task_buttons}>
+              <Button
+                variant="redact"
+                onConfirm={onEditConfirm}
+                taskIndex={taskIndex}
+              >
+                <Icon name="edit" />
+              </Button>
+              <Button
+                variant="delete"
+                onConfirm={onDelete}
+                taskIndex={taskIndex}
+              >
+                <Icon name="delete" />
+              </Button>
+            </div>
+          )}
+        </div>
       </Form>
       {focus && !validation.isValid && (
         <ValidationInfo>{validation.message}</ValidationInfo>

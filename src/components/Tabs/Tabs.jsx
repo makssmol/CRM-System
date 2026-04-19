@@ -1,8 +1,9 @@
+import styles from "./Tabs.module.css"
 import { Button, Container } from "../../ui";
 
 export function Tabs({ info, selectedTask, setSelectedTask }) {
   return (
-    <Container variant="tabs">
+    <div className={styles.tabs}>
       {Object.entries(info).map(([status, values], index) => (
         <Button
           key={index}
@@ -13,6 +14,6 @@ export function Tabs({ info, selectedTask, setSelectedTask }) {
           {status.trim()}({values})
         </Button>
       ))}
-    </Container>
+    </div>
   );
 }

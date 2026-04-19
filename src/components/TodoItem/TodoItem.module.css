@@ -1,0 +1,24 @@
+.task {
+  display: flex;
+  background-color: var(--primary-task-bg-color);
+  border-radius: 6px;
+  justify-content: space-between;
+  padding: 1rem;
+  margin: 0.5rem;
+  box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+.task_main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* .task-main .tasks-input {
+  align-items: center;
+} */
+
+.task_buttons {
+  display: flex;
+  gap: 1rem;
+}

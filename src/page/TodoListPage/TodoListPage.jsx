@@ -1,3 +1,4 @@
+import styles from "./TodoListPage.module.css"
 import { useState } from "react";
 import {
   AddTask,
@@ -5,7 +6,6 @@ import {
   TodoList,
   Error,
 } from "../../components";
-import { Container } from "../../ui";
 import { useTodo, useValidation } from "../../hooks";
 
 export function TodoListPage() {
@@ -66,7 +66,7 @@ export function TodoListPage() {
   }
 
   return (
-    <Container variant="todo">
+    <div className={styles.todo}>
       <AddTask
         onSub={handleAddTask}
         taskObject={taskBody}
@@ -76,7 +76,7 @@ export function TodoListPage() {
         focus={focus}
         validationMessage={validation.message}
       />
-      <Container variant="content">
+      <div className={styles.content}>
         <Tabs
           info={info}
           selectedTask={selectedTask}
@@ -91,7 +91,7 @@ export function TodoListPage() {
           editingId={editingId}
           onCheck={handleTaskCompletion}
         />
-      </Container>
-    </Container>
+      </div>
+    </div>
   );
 }
