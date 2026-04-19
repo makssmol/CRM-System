@@ -7,15 +7,13 @@ export function TodoItemInputs({
   isComplete,
   taskIndex,
   onUserInput,
-  isFocus
+  isFocus,
 }) {
   return (
     <Container variant="task-main">
       <Checkbox
-        onCheck={onCheck}
-        title={title}
-        isComplete={isComplete}
-        taskIndex={taskIndex}
+        checked={isComplete}
+        onClick={() => onCheck(taskIndex, title, isComplete)}
       />
       {!isEditing ? (
         <Input

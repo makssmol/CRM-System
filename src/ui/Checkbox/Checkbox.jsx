@@ -1,22 +1,13 @@
-import "./Checkbox.css"
+import "./Checkbox.css";
+import { useState } from "react";
+import { TickIcon } from "../../assets/icons/TickIcon";
 
-export function Checkbox({
-  variant = "finished",
-  isComplete,
-  onCheck,
-  taskIndex,
-  title,
-}) {
-  let defaultChecked = false;
-  if (isComplete === true) {
-    defaultChecked = true;
-  }
+export function Checkbox({checked = false, onClick}) {
+  const [isChecked, setIsChecked] = useState(checked)
   return (
-    <input
-      className={variant}
-      type="checkbox"
-      onClick={() => onCheck(taskIndex, title, isComplete)}
-      defaultChecked={defaultChecked}
-    />
+    <label>
+      <input type="checkbox" defaultChecked={isChecked} onClick={onClick} onChange={() => setIsChecked(!isChecked)}/>
+      <TickIcon isChecked={isChecked}/>
+    </label>
   );
 }

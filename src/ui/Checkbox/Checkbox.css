@@ -1,4 +1,22 @@
-.finished{
-    margin: 0px;
+input[type="checkbox"] {
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.checkbox {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  vertical-align: middle;
+  border: 1px solid black;
+}
+.checkbox--active{
+  border-color: rgb(82, 82, 249);
+  background: rgb(76, 76, 243);
 }
 
