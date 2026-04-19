@@ -1,6 +1,6 @@
 import "./Checkbox.css";
 import { useState } from "react";
-import { TickIcon } from "../../assets/icons/TickIcon";
+import { TickIcon } from "../../assets/icons/";
 
 export function Checkbox({checked = false, onClick}) {
   const [isChecked, setIsChecked] = useState(checked)

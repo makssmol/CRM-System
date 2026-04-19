@@ -1,5 +1,5 @@
 import styles from "./Tabs.module.css"
-import { Button, Container } from "../../ui";
+import { Button} from "../../ui";
 
 export function Tabs({ info, selectedTask, setSelectedTask }) {
   return (

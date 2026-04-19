@@ -3,7 +3,8 @@ import { Form } from "../Form";
 import { useState } from "react";
 import { useValidation } from "../../hooks";
 import { ValidationInfo } from "../ValidationInfo";
-import { Checkbox, Input, Button, Icon } from "../../ui";
+import { Checkbox, Input, Button} from "../../ui";
+import { EditIcon, DeleteIcon, ConfirmIcon, CancelIcon } from "../../assets/icons";
 
 export function TodoItem({
   taskIndex,
@@ -53,10 +54,10 @@ export function TodoItem({
           {isEditing ? (
             <div className={styles.task_buttons}>
               <Button variant="confirm-action" type="submit" isValid={validation.isValid}>
-                <Icon name="confirm" />
+                <ConfirmIcon />
               </Button>
               <Button variant="cancel-action" onConfirm={onEditConfirm}>
-                <Icon name="cancel" />
+                <CancelIcon />
               </Button>
             </div>
           ) : (
@@ -66,14 +67,14 @@ export function TodoItem({
                 onConfirm={onEditConfirm}
                 taskIndex={taskIndex}
               >
-                <Icon name="edit" />
+                <EditIcon />
               </Button>
               <Button
                 variant="delete"
                 onConfirm={onDelete}
                 taskIndex={taskIndex}
               >
-                <Icon name="delete" />
+                <DeleteIcon />
               </Button>
             </div>
           )}
