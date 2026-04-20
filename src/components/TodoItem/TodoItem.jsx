@@ -3,8 +3,13 @@ import { Form } from "../Form";
 import { useState } from "react";
 import { useValidation } from "../../hooks";
 import { ValidationInfo } from "../ValidationInfo";
-import { Checkbox, Input, Button} from "../../ui";
-import { EditIcon, DeleteIcon, ConfirmIcon, CancelIcon } from "../../assets/icons";
+import { Checkbox, Input, Button, IconButton } from "../../ui";
+import {
+  EditIcon,
+  DeleteIcon,
+  ConfirmIcon,
+  CancelIcon,
+} from "../../assets/icons";
 
 export function TodoItem({
   taskIndex,
@@ -53,29 +58,33 @@ export function TodoItem({
           </div>
           {isEditing ? (
             <div className={styles.task_buttons}>
-              <Button variant="confirm-action" type="submit" isValid={validation.isValid}>
+              <IconButton variant="primary" type="submit">
                 <ConfirmIcon />
-              </Button>
-              <Button variant="cancel-action" onConfirm={onEditConfirm}>
+              </IconButton>
+              <IconButton
+                variant="secoundary"
+                type="button"
+                onClick={() => onEditConfirm()}
+              >
                 <CancelIcon />
-              </Button>
+              </IconButton>
             </div>
           ) : (
             <div className={styles.task_buttons}>
-              <Button
-                variant="redact"
-                onConfirm={onEditConfirm}
-                taskIndex={taskIndex}
+              <IconButton
+                variant="primary"
+                onClick={() => onEditConfirm(taskIndex)}
+                type="button"
               >
                 <EditIcon />
-              </Button>
-              <Button
-                variant="delete"
-                onConfirm={onDelete}
-                taskIndex={taskIndex}
+              </IconButton>
+              <IconButton
+                variant="danger"
+                type="button"
+                onClick={() => onDelete?.(taskIndex)}
               >
                 <DeleteIcon />
-              </Button>
+              </IconButton>
             </div>
           )}
         </div>

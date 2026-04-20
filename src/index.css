@@ -8,8 +8,11 @@
   --primary-btn-hover-color: rgb(228, 227, 227);
   --primary-btn-bg-color: #5393FF;
   --primary-btn-hover-bg-color: #4185fb;
-  --secoundary-btn-bg-color: red;
-  --secoundary-btn-hover-bg-color: rgb(224, 2, 2);
+  --secoundary-btn-color: rgb(0, 0, 0);
+  --secoundary-btn-bg-color: white;
+  --secoundary-btn-hover-bg-color: rgb(238, 238, 238);
+  --danger-btn-bg-color: red;
+  --danger-btn--hover-bg-color: rgb(224, 2, 2);
   --btn-tab-color: #999A9E;
   --btn-tab-active-color: #80D7FA;
   --btn-confirm-bg-color: rgb(148, 218, 43);
