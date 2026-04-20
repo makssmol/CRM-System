@@ -1,18 +1,18 @@
-import styles from "./Tabs.module.css"
-import { Button} from "../../ui";
+import styles from "./Tabs.module.css";
+import { NavButton } from "../../ui";
 
 export function Tabs({ info, selectedTask, setSelectedTask }) {
   return (
     <div className={styles.tabs}>
       {Object.entries(info).map(([status, values], index) => (
-        <Button
+        <NavButton
           key={index}
           variant="tab-button"
           selected={selectedTask === status}
-          onConfirm={() => setSelectedTask(status)}
+          onClick={() => setSelectedTask(status)}
         >
           {status.trim()}({values})
-        </Button>
+        </NavButton>
       ))}
     </div>
   );

@@ -17,7 +17,7 @@ export function Button({
     <button
       type={type}
       onClick={() => onConfirm?.(taskIndex, taskBody)}
-      className={selected ? variant + " active" : variant}
+      className={variant}
       disabled={!isValid}
     >
       {children}

@@ -15,44 +15,6 @@
 }
 
 
-.delete{
-    color: var(--primary-btn-color);
-    background-color: var(--secoundary-btn-bg-color);
-    border-color: transparent;
-    border-radius: 4px;
-    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
-    display: flex;
-}
-
-.delete:hover{
-    background-color: var( --secoundary-btn-hover-bg-color);
-    color: var(--primary-btn-hover-color);
-}
-
-.delete svg{
-    width: 1.6rem;
-    align-items: center;
-}
-
-.redact{
-    color: var(--primary-btn-color);
-    background-color: var(--primary-btn-bg-color);
-    border-color: transparent;
-    border-radius: 4px;
-    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
-    display: flex;
-}
-
-.redact:hover{
-    background-color: var(--primary-btn-hover-bg-color);
-    color: var(--primary-btn-hover-color);
-}
-
-.redact svg{
-    width: 1.6rem;
-    align-items: center;
-}
-
 .tab-button{
     background-color: transparent;
     color: var(--btn-tab-color);
@@ -65,44 +27,6 @@
     color: var(--btn-tab-active-color);
     background-color: transparent;
     
-}
-
-.confirm-action{
-    color: var(--primary-btn-color);
-    background-color: var(--btn-confirm-bg-color);
-    border-color: transparent;
-    border-radius: 4px;
-    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
-    display: flex;
-}
-
-.confirm-action:hover{
-    background-color:  var(--btn-confirm-hover-bg-color);
-    color: var(--primary-btn-hover-color);
-}
-
-.confirm-action svg{
-    width: 1.6rem;
-    align-items: center;
-}
-
-.cancel-action{
-    color: var(--primary-btn-color);
-    background-color: var(--secoundary-btn-bg-color);
-    border-color: transparent;
-    border-radius: 4px;
-    box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
-    display: flex;
-}
-
-.cancel-action:hover{
-    background-color: var(--secoundary-btn-hover-bg-color);
-    color: var(--primary-btn-hover-color);
-}
-
-.cancel-action svg{
-    width: 1.6rem;
-    align-items: center;
 }
 
 .block{
