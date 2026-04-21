@@ -1,40 +1,6 @@
-.create-task{
-    width: 70%;
-    padding: 0.4rem;
+.input{
+    padding-left: 0.4rem;
     background-color: transparent;
     border-color: transparent;
     box-shadow:1.5px 1px 1px rgba(0, 0, 0, 0.3);
-}
-
-.tasks-input{
-    width: 70%;
-    background-color: transparent;
-    border-color: transparent;
-    padding: 0;
-    border: 0;
-}
-
-.completed{
-    width: 70%;
-    background-color: transparent;
-    border-color: transparent;
-    padding: 0;
-    border: 0;
-    text-decoration: line-through;
-    color: rgb(146, 146, 146);
-}
-
-.edit-input{
-    width: 70%;
-    background-color: transparent;
-    border-color: transparent;
-    padding: 0;
-    border: 0;
-    color: var( --warning-input-color);
-}
-
-@media (max-width: 30rem) {
- .create-task{
-    width: 60%;
- }   
 }

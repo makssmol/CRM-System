@@ -31,14 +31,11 @@ export function TodoListPage() {
   } = useTodo(selectedTask);
 
   function handleInputChange(title) {
-    if (title.length > 64) {
-      return;
-    }
     validateTitle(title);
     setTaskBody({ isDone: false, title });
   }
 
-  function handleAddTask(_, taskObject) {
+  function handleAddTask(taskObject) {
     addTask(taskObject);
   }
 
@@ -68,7 +65,7 @@ export function TodoListPage() {
   return (
     <div className={styles.todo}>
       <AddTask
-        onSub={handleAddTask}
+        handleAddTask={handleAddTask}
         taskObject={taskBody}
         onUserInput={handleInputChange}
         isFocus={isFocus}

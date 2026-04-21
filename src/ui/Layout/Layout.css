@@ -1,6 +1,6 @@
 .layout{
     width: 100%;
-    min-height: 100vh;
+    min-height: 100%;
     text-align: center;
     background-color: var(--primary-layout-bg-color);
     position: absolute;

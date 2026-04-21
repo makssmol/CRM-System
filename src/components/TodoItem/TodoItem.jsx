@@ -1,5 +1,4 @@
 import styles from "./TodoItem.module.css";
-import { Form } from "../Form";
 import { useState } from "react";
 import { useValidation } from "../../hooks";
 import { ValidationInfo } from "../ValidationInfo";
@@ -30,28 +29,24 @@ export function TodoItem({
 
   return (
     <>
-      <Form
-        onSub={onEdit}
-        taskIndex={taskIndex}
-        taskObject={{ title: editedTitle, isDone: isComplete }}
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          onEdit(taskIndex, { title: editedTitle, isDone: isComplete });
+        }}
       >
         <div className={styles.task}>
           <div className={styles.task_main}>
             <Checkbox
               checked={isComplete}
               onClick={() => onCheck(taskIndex, title, isComplete)}
+              label={!isEditing && title}
             />
-            {!isEditing ? (
+            {isEditing && (
               <Input
-                title={title}
-                inputVariant="tasks-input"
-                isComplete={isComplete}
-              />
-            ) : (
-              <Input
-                title={title}
-                inputVariant="edit-input"
-                onUserInput={handleEditInput}
+                defaultValue={title}
+                inputVariant="input"
+                onChange={(event) => handleEditInput?.(event.target.value)}
                 isFocus={isFocus}
               />
             )}
@@ -88,7 +83,7 @@ export function TodoItem({
             </div>
           )}
         </div>
-      </Form>
+      </form>
       {focus && !validation.isValid && (
         <ValidationInfo>{validation.message}</ValidationInfo>
       )}

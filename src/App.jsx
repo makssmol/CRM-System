@@ -1,4 +1,4 @@
-import { Layout } from "./components";
+import { Layout } from "./ui";
 import { TodoListPage } from "./page/TodoListPage";
 
 function App() {

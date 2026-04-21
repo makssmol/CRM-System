@@ -1,10 +1,9 @@
 import styles from "./AddTask.module.css";
-import { Form } from "../Form";
 import { Button, Input } from "../../ui";
 import { ValidationInfo } from "../ValidationInfo";
 
 export function AddTask({
-  onSub,
+  handleAddTask,
   taskObject,
   onUserInput,
   isFocus,
@@ -13,20 +12,26 @@ export function AddTask({
   validationMessage,
 }) {
   return (
-    <Form onSub={onSub} taskObject={taskObject}>
+    <form
+      onSubmit={(e) => {
+        e.preventDefault();
+        handleAddTask?.(taskObject);
+      }}
+    >
       <div className={styles.header}>
         <Input
-          inputVariant="create-task"
-          onUserInput={onUserInput}
+          name="create-task"
+          inputVariant="input"
+          onChange={(event) => onUserInput?.(event.target.value)}
           isFocus={isFocus}
+          placeholder="Task To Be Done..."
+          type="text"
         />
-        <Button type="submit" isValid={isValid}>
-          Add
-        </Button>
+        <Button name="create-task" isValid={isValid}>Add</Button>
       </div>
       {focus && !isValid && (
         <ValidationInfo>{validationMessage}</ValidationInfo>
       )}
-    </Form>
+    </form>
   );
 }

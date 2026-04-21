@@ -1,23 +1,10 @@
 import "./Button.css";
 
-export function Button({
-  variant = "create",
-  type = "button",
-  onConfirm,
-  selected,
-  children,
-  taskIndex,
-  taskBody,
-  isValid = true,
-}) {
-  if(!isValid){
-    variant += " block"
-  }
+export function Button({ variant = "button", children, isValid = true }) {
   return (
     <button
-      type={type}
-      onClick={() => onConfirm?.(taskIndex, taskBody)}
-      className={variant}
+      type="submit"
+      className={!isValid ? variant + " block" : variant}
       disabled={!isValid}
     >
       {children}

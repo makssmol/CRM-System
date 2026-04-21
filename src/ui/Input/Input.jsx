@@ -1,21 +1,14 @@
 import "./Input.css";
 
 export function Input({
-  inputVariant,
-  title,
-  onUserInput,
-  isComplete,
+  inputVariant = "input",
+  placeholder,
+  type,
+  defaultValue,
+  onChange,
   isFocus,
+  disabled = false
 }) {
-  let disabled = false;
-  if (inputVariant === "tasks-input") {
-    disabled = true;
-  }
-
-  if (isComplete === true) {
-    inputVariant = "completed";
-  }
-
   return (
     <input
       onFocus={(e) => {
@@ -26,14 +19,13 @@ export function Input({
         isFocus(false);
         e.preventDefault();
       }}
-      onChange={(event) => onUserInput?.(event.target.value)}
+      onChange={onChange}
       disabled={disabled}
-      defaultValue={title}
-      type="text"
+      defaultValue={defaultValue}
+      type={type}
       className={inputVariant}
-      placeholder="Task To Be Done..."
+      placeholder={placeholder}
       required
-      minLength={2}
     />
   );
 }

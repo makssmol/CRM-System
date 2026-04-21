@@ -6,17 +6,17 @@
   padding: 1rem;
   margin: 0.5rem;
   box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.2);
+  
 }
 
 .task_main {
   display: flex;
+  flex-direction: row wrap;
   align-items: center;
   gap: 1rem;
+  width: 15rem;
+  max-width: 80%;
 }
-
-/* .task-main .tasks-input {
-  align-items: center;
-} */
 
 .task_buttons {
   display: flex;

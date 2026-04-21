@@ -7,6 +7,16 @@ input[type="checkbox"] {
   vertical-align: middle;
 }
 
+.label {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+}
+
 .checkbox {
   display: inline-block;
   width: 16px;
@@ -14,9 +24,15 @@ input[type="checkbox"] {
   border-radius: 50%;
   vertical-align: middle;
   border: 1px solid black;
+  overflow: visible;
 }
-.checkbox--active{
+
+.label--active {
+  text-decoration: line-through;
+  color: var(--secoundary-font-color);
+}
+
+.checkbox--active {
   border-color: rgb(82, 82, 249);
   background: rgb(76, 76, 243);
 }
-

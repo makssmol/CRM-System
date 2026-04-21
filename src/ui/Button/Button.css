@@ -1,4 +1,4 @@
-.create{
+.button{
     font-family: 'Roboto', 'sans-serif';
     padding: 0.5rem 2rem;
     color: var(--primary-btn-color);
@@ -9,24 +9,9 @@
     display: block;
 }
 
-.create:hover{
+.button:hover{
     background-color: var(--primary-btn-hover-bg-color);
     color: var(--primary-btn-hover-color);
-}
-
-
-.tab-button{
-    background-color: transparent;
-    color: var(--btn-tab-color);
-    border-color: transparent;
-    font-size: 1.2rem;
-}
-
-.active{
-    text-decoration: underline;
-    color: var(--btn-tab-active-color);
-    background-color: transparent;
-    
 }
 
 .block{
