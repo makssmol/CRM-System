@@ -1,58 +1,50 @@
-import styles from "./TodoListPage.module.css"
-import { useState } from "react";
-import {
-  AddTask,
-  Tabs,
-  TodoList,
-  Error,
-} from "../../components";
-import { useTodo, useValidation } from "../../hooks";
+import styles from "./TodoListPage.module.css";
+import { useEffect, useState } from "react";
+import { AddTask, Tabs, TodoList, Error } from "../../components";
+import { useValidation } from "../../hooks";
+import { fetchTasks } from "../../api";
 
 export function TodoListPage() {
   const [selectedTask, setSelectedTask] = useState("all");
-
   const [taskBody, setTaskBody] = useState({
     isDone: false,
     title: "",
   });
+  const [isFetching, setIsFetching] = useState(false);
+  const [task, setTask] = useState([]);
+  const [info, setInfo] = useState({});
+  const [error, setError] = useState();
+  const [editingId, setEditingId] = useState(null);
   const { validation, validateTitle, focus, isFocus } = useValidation();
-  const {
-    task,
-    info,
-    isFetching,
-    error,
-    deleteTaskbyId,
-    addTask,
-    editTaskById,
-    editingId,
-    setEditingId,
-    handleEditConfirmation,
-    markTaskForCompletion,
-  } = useTodo(selectedTask);
+
+  function handleLoadTask(selectedTask) {
+    async function loadTasks(filter) {
+      setIsFetching(true);
+      setError(null);
+
+      try {
+        const taskData = await fetchTasks(filter);
+        setTask(taskData.data || []);
+        setInfo(taskData.info || {});
+      } catch (error) {
+        setError(error.message || "Не удалось загрузить задачи");
+        setTask([]);
+        setInfo({});
+      } finally {
+        setIsFetching(false);
+      }
+    }
+
+    loadTasks(selectedTask);
+  }
+
+  useEffect(() => {
+    handleLoadTask(selectedTask);
+  }, [selectedTask]);
 
   function handleInputChange(title) {
     validateTitle(title);
     setTaskBody({ isDone: false, title });
-  }
-
-  function handleAddTask(taskObject) {
-    addTask(taskObject);
-  }
-
-  function handleEdit(taskIndex, taskObject) {
-    editTaskById(taskIndex, taskObject);
-    setEditingId(null);
-  }
-
-  function handleTaskCompletion(taskIndex, title, isComplete) {
-    if (taskIndex) {
-      markTaskForCompletion(taskIndex, {
-        isDone: !isComplete,
-        title: `${title}`,
-      });
-    } else {
-      return;
-    }
   }
 
   if (error) {
@@ -65,7 +57,8 @@ export function TodoListPage() {
   return (
     <div className={styles.todo}>
       <AddTask
-        handleAddTask={handleAddTask}
+        loadTasks={handleLoadTask}
+        setError={setError}
         taskObject={taskBody}
         onUserInput={handleInputChange}
         isFocus={isFocus}
@@ -80,13 +73,12 @@ export function TodoListPage() {
           setSelectedTask={setSelectedTask}
         />
         <TodoList
+          loadTasks={handleLoadTask}
+          setError={setError}
           isFetching={isFetching}
           task={task}
-          onDelete={deleteTaskbyId}
-          onEdit={handleEdit}
-          onEditConfirm={handleEditConfirmation}
           editingId={editingId}
-          onCheck={handleTaskCompletion}
+          setEditingId={setEditingId}
         />
       </div>
     </div>

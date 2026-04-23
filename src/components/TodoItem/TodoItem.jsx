@@ -1,5 +1,6 @@
 import styles from "./TodoItem.module.css";
 import { useState } from "react";
+import { deleteTask, changeTask } from "../../api";
 import { useValidation } from "../../hooks";
 import { ValidationInfo } from "../ValidationInfo";
 import { Checkbox, Input, Button, IconButton } from "../../ui";
@@ -11,17 +12,70 @@ import {
 } from "../../assets/icons";
 
 export function TodoItem({
+  loadTasks,
+  setError,
   taskIndex,
   title,
-  onDelete,
-  onEdit,
-  onEditConfirm,
   isEditing,
-  onCheck,
   isComplete,
+  setEditingId,
 }) {
   const [editedTitle, setEditedTitle] = useState(title);
   const { validation, validateTitle, focus, isFocus } = useValidation();
+
+  function handleEditTask(id, task) {
+    async function editTaskById(id, task) {
+      try {
+        await changeTask(id, task);
+        await loadTasks();
+      } catch (error) {
+        setError(error.message || "Не удалось отредактировать задачу");
+      }
+    }
+
+    editTaskById(id, task);
+    setEditingId(null);
+  }
+
+  function handleEditConfirmation(id) {
+    async function editConfirmation(id) {
+      try {
+        setEditingId(id);
+        await loadTasks();
+      } catch (error) {
+        setError(error.message || "Не удалось отредактировать задачу");
+      }
+    }
+
+    editConfirmation(id);
+  }
+
+  function handleCompleteTask(id, task) {
+    async function markTaskForCompletion(id, task) {
+      try {
+        await changeTask(id, task);
+        await loadTasks();
+      } catch (error) {
+        setError(error.message || "Не удалось поменять статус задачи");
+      }
+    }
+
+    markTaskForCompletion(id, task);
+  }
+
+  function handleDeleteTask(id) {
+    async function deleteTaskbyId(id) {
+      try {
+        await deleteTask(id);
+        await loadTasks();
+      } catch (error) {
+        setError(error.message || "Не удалось удалить задачу");
+      }
+    }
+
+    deleteTaskbyId(id);
+  }
+
   function handleEditInput(title) {
     validateTitle(title);
     setEditedTitle(title);
@@ -32,14 +86,19 @@ export function TodoItem({
       <form
         onSubmit={(e) => {
           e.preventDefault();
-          onEdit(taskIndex, { title: editedTitle, isDone: isComplete });
+          handleEditTask(taskIndex, { title: editedTitle, isDone: isComplete });
         }}
       >
         <div className={styles.task}>
           <div className={styles.task_main}>
             <Checkbox
               checked={isComplete}
-              onClick={() => onCheck(taskIndex, title, isComplete)}
+              onClick={() =>
+                handleCompleteTask(taskIndex, {
+                  title: title,
+                  isDone: !isComplete,
+                })
+              }
               label={!isEditing && title}
             />
             {isEditing && (
@@ -59,7 +118,7 @@ export function TodoItem({
               <IconButton
                 variant="secoundary"
                 type="button"
-                onClick={() => onEditConfirm()}
+                onClick={() => handleEditConfirmation()}
               >
                 <CancelIcon />
               </IconButton>
@@ -68,7 +127,7 @@ export function TodoItem({
             <div className={styles.task_buttons}>
               <IconButton
                 variant="primary"
-                onClick={() => onEditConfirm(taskIndex)}
+                onClick={() => handleEditConfirmation(taskIndex)}
                 type="button"
               >
                 <EditIcon />
@@ -76,7 +135,7 @@ export function TodoItem({
               <IconButton
                 variant="danger"
                 type="button"
-                onClick={() => onDelete?.(taskIndex)}
+                onClick={() => handleDeleteTask?.(taskIndex)}
               >
                 <DeleteIcon />
               </IconButton>

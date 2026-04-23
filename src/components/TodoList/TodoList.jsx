@@ -1,13 +1,12 @@
 import { TodoItem } from "../TodoItem";
 
 export function TodoList({
+  loadTasks,
+  setError,
   isFetching,
   task,
-  onDelete,
-  onEdit,
-  onEditConfirm,
   editingId,
-  onCheck
+  setEditingId,
 }) {
   return (
     <>
@@ -18,12 +17,11 @@ export function TodoList({
             key={data.id}
             taskIndex={data.id}
             title={data.title}
-            onDelete={onDelete}
-            onEdit={onEdit}
-            onEditConfirm={onEditConfirm}
             isEditing={editingId === data.id}
-            onCheck={onCheck}
             isComplete={data.isDone}
+            loadTasks={loadTasks}
+            setError={setError}
+            setEditingId={setEditingId}
           />
         ))}
     </>
