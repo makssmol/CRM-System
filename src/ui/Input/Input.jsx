@@ -6,26 +6,21 @@ export function Input({
   type,
   defaultValue,
   onChange,
-  isFocus,
-  disabled = false
+  disabled = false,
+  validationMessage,
 }) {
   return (
-    <input
-      onFocus={(e) => {
-        isFocus(true);
-        e.preventDefault();
-      }}
-      onBlur={(e) => {
-        isFocus(false);
-        e.preventDefault();
-      }}
-      onChange={onChange}
-      disabled={disabled}
-      defaultValue={defaultValue}
-      type={type}
-      className={inputVariant}
-      placeholder={placeholder}
-      required
-    />
+    <>
+      <input
+        onChange={onChange}
+        disabled={disabled}
+        defaultValue={defaultValue}
+        type={type}
+        className={inputVariant}
+        placeholder={placeholder}
+        required
+      />
+        <p className="invalid">{validationMessage}</p>
+    </>
   );
 }

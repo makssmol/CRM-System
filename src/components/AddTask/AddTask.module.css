@@ -5,6 +5,11 @@
   gap: 10px;
 }
 
+.header p{
+  position: absolute;
+  margin-top: 2.2rem;
+}
+
 .header input{
   width: 70%;
 }

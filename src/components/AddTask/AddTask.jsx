@@ -1,6 +1,5 @@
 import styles from "./AddTask.module.css";
 import { Button, Input } from "../../ui";
-import { ValidationInfo } from "../ValidationInfo";
 import { useEffect } from "react";
 import { createNewTask } from "../../api";
 
@@ -9,9 +8,7 @@ export function AddTask({
   setError,
   taskObject,
   onUserInput,
-  isFocus,
   isValid,
-  focus,
   validationMessage,
 }) {
   function handleAddTask(newTask) {
@@ -42,17 +39,14 @@ export function AddTask({
           name="create-task"
           inputVariant="input"
           onChange={(event) => onUserInput?.(event.target.value)}
-          isFocus={isFocus}
           placeholder="Task To Be Done..."
           type="text"
+          validationMessage={validationMessage}
         />
         <Button name="create-task" isValid={isValid}>
           Add
         </Button>
       </div>
-      {focus && !isValid && (
-        <ValidationInfo>{validationMessage}</ValidationInfo>
-      )}
     </form>
   );
 }

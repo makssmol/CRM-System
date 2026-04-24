@@ -15,7 +15,7 @@ export function TodoListPage() {
   const [info, setInfo] = useState({});
   const [error, setError] = useState();
   const [editingId, setEditingId] = useState(null);
-  const { validation, validateTitle, focus, isFocus } = useValidation();
+  const { validation, validateTitle} = useValidation();
 
   function handleLoadTask(selectedTask) {
     async function loadTasks(filter) {
@@ -61,9 +61,7 @@ export function TodoListPage() {
         setError={setError}
         taskObject={taskBody}
         onUserInput={handleInputChange}
-        isFocus={isFocus}
         isValid={validation.isValid}
-        focus={focus}
         validationMessage={validation.message}
       />
       <div className={styles.content}>

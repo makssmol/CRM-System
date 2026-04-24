@@ -7,15 +7,6 @@
   display: flex;
 }
 
-.secoundary{
-  color: var(--secoundary-btn-color);
-  background-color: var(--secoundary-btn-bg-color);
-}
-
-.secoundary:hover{
-  background-color: var(--secoundary-btn-hover-bg-color);
-}
-
 .primary {
   color: var(--primary-btn-color);
   background-color: var(--primary-btn-bg-color);
@@ -25,8 +16,16 @@
   color: var(--primary-btn-hover-color);
   background-color: var(--primary-btn-hover-bg-color);
 }
+.secoundary {
+  color: var(--secoundary-btn-color);
+  background-color: var(--secoundary-btn-bg-color);
+}
 
-.danger{
+.secoundary:hover {
+  background-color: var(--secoundary-btn-hover-bg-color);
+}
+
+.danger {
   color: var(--primary-btn-color);
   background-color: var(--danger-btn-bg-color);
 }
@@ -34,6 +33,15 @@
 .danger:hover{
   color: var(--primary-btn-hover-color);
   background-color: var(--danger-btn--hover-bg-color);
+}
+
+.block {
+  color: var(--primary-btn-color);
+  background-color: var(--btn-block-bg-color);
+}
+
+.block:hover {
+  background-color: var(--btn-block-hover-bg-color);
 }
 
 .icon_button svg {

@@ -2,7 +2,6 @@ import styles from "./TodoItem.module.css";
 import { useState } from "react";
 import { deleteTask, changeTask } from "../../api";
 import { useValidation } from "../../hooks";
-import { ValidationInfo } from "../ValidationInfo";
 import { Checkbox, Input, Button, IconButton } from "../../ui";
 import {
   EditIcon,
@@ -21,7 +20,7 @@ export function TodoItem({
   setEditingId,
 }) {
   const [editedTitle, setEditedTitle] = useState(title);
-  const { validation, validateTitle, focus, isFocus } = useValidation();
+  const { validation, validateTitle} = useValidation();
 
   function handleEditTask(id, task) {
     async function editTaskById(id, task) {
@@ -106,13 +105,13 @@ export function TodoItem({
                 defaultValue={title}
                 inputVariant="input"
                 onChange={(event) => handleEditInput?.(event.target.value)}
-                isFocus={isFocus}
+                validationMessage={validation.message}
               />
             )}
           </div>
           {isEditing ? (
             <div className={styles.task_buttons}>
-              <IconButton variant="primary" type="submit">
+              <IconButton variant="primary" type="submit" isValid={validation.isValid}>
                 <ConfirmIcon />
               </IconButton>
               <IconButton
@@ -143,9 +142,6 @@ export function TodoItem({
           )}
         </div>
       </form>
-      {focus && !validation.isValid && (
-        <ValidationInfo>{validation.message}</ValidationInfo>
-      )}
     </>
   );
 }

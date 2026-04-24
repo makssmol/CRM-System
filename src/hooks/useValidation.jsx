@@ -5,7 +5,6 @@ export function useValidation() {
     isValid: true,
     message: "",
   });
-  const [focus, isFocus] = useState(false);
 
   const validateTitle = (title) => {
     const trimmed = title.trim();
@@ -37,18 +36,9 @@ export function useValidation() {
     return true;
   };
 
-  const resetValidation = () => {
-    setValidation({
-      isValid: true,
-      message: "",
-    });
-  };
 
   return {
     validation,
     validateTitle,
-    resetValidation,
-    focus,
-    isFocus,
   };
 }
