@@ -63,6 +63,7 @@ export function TodoListPage() {
         onUserInput={handleInputChange}
         isValid={validation.isValid}
         validationMessage={validation.message}
+        selectedTask={selectedTask}
       />
       <div className={styles.content}>
         <Tabs
@@ -77,6 +78,7 @@ export function TodoListPage() {
           task={task}
           editingId={editingId}
           setEditingId={setEditingId}
+          selectedTask={selectedTask}
         />
       </div>
     </div>

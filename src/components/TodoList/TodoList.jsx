@@ -7,6 +7,7 @@ export function TodoList({
   task,
   editingId,
   setEditingId,
+  selectedTask,
 }) {
   return (
     <>
@@ -22,6 +23,7 @@ export function TodoList({
             loadTasks={loadTasks}
             setError={setError}
             setEditingId={setEditingId}
+            selectedTask={selectedTask}
           />
         ))}
     </>

@@ -18,6 +18,7 @@ export function TodoItem({
   isEditing,
   isComplete,
   setEditingId,
+  selectedTask,
 }) {
   const [editedTitle, setEditedTitle] = useState(title);
   const { validation, validateTitle} = useValidation();
@@ -26,7 +27,7 @@ export function TodoItem({
     async function editTaskById(id, task) {
       try {
         await changeTask(id, task);
-        await loadTasks();
+        await loadTasks(selectedTask);
       } catch (error) {
         setError(error.message || "Не удалось отредактировать задачу");
       }
@@ -40,7 +41,7 @@ export function TodoItem({
     async function editConfirmation(id) {
       try {
         setEditingId(id);
-        await loadTasks();
+        await loadTasks(selectedTask);
       } catch (error) {
         setError(error.message || "Не удалось отредактировать задачу");
       }
@@ -53,7 +54,7 @@ export function TodoItem({
     async function markTaskForCompletion(id, task) {
       try {
         await changeTask(id, task);
-        await loadTasks();
+        await loadTasks(selectedTask);
       } catch (error) {
         setError(error.message || "Не удалось поменять статус задачи");
       }
@@ -66,7 +67,7 @@ export function TodoItem({
     async function deleteTaskbyId(id) {
       try {
         await deleteTask(id);
-        await loadTasks();
+        await loadTasks(selectedTask);
       } catch (error) {
         setError(error.message || "Не удалось удалить задачу");
       }

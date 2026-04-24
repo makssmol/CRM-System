@@ -10,6 +10,7 @@ export function AddTask({
   onUserInput,
   isValid,
   validationMessage,
+  selectedTask,
 }) {
   function handleAddTask(newTask) {
     async function addTask(newTask) {
@@ -18,7 +19,7 @@ export function AddTask({
       }
       try {
         await createNewTask(newTask);
-        await loadTasks()
+        await loadTasks(selectedTask);
       } catch (error) {
         setError(error.message || "Не удалось добавить задачу");
       }
