@@ -14,7 +14,6 @@ export function TodoListPage() {
   const [task, setTask] = useState([]);
   const [info, setInfo] = useState({});
   const [error, setError] = useState();
-  const [editingId, setEditingId] = useState(null);
   const { validation, validateTitle} = useValidation();
 
   function handleLoadTask(selectedTask) {
@@ -76,8 +75,6 @@ export function TodoListPage() {
           setError={setError}
           isFetching={isFetching}
           task={task}
-          editingId={editingId}
-          setEditingId={setEditingId}
           selectedTask={selectedTask}
         />
       </div>

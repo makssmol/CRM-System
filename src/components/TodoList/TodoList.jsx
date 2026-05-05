@@ -5,10 +5,9 @@ export function TodoList({
   setError,
   isFetching,
   task,
-  editingId,
-  setEditingId,
   selectedTask,
 }) {
+  console.log("render");
   return (
     <>
       {isFetching && <p>Tasks are loading</p>}
@@ -18,11 +17,9 @@ export function TodoList({
             key={data.id}
             taskIndex={data.id}
             title={data.title}
-            isEditing={editingId === data.id}
             isComplete={data.isDone}
             loadTasks={loadTasks}
             setError={setError}
-            setEditingId={setEditingId}
             selectedTask={selectedTask}
           />
         ))}

@@ -15,15 +15,17 @@ export function TodoItem({
   setError,
   taskIndex,
   title,
-  isEditing,
   isComplete,
-  setEditingId,
   selectedTask,
 }) {
+  const { validation, validateTitle } = useValidation();
+
   const [editedTitle, setEditedTitle] = useState(title);
-  const { validation, validateTitle} = useValidation();
+  const [isEditing, setIsEditing] = useState(false);
 
   function handleEditTask(id, task) {
+    setIsEditing(true);
+    console.log("isEditing: ", isEditing);
     async function editTaskById(id, task) {
       try {
         await changeTask(id, task);
@@ -32,22 +34,8 @@ export function TodoItem({
         setError(error.message || "Не удалось отредактировать задачу");
       }
     }
-
     editTaskById(id, task);
-    setEditingId(null);
-  }
-
-  function handleEditConfirmation(id) {
-    async function editConfirmation(id) {
-      try {
-        setEditingId(id);
-        await loadTasks(selectedTask);
-      } catch (error) {
-        setError(error.message || "Не удалось отредактировать задачу");
-      }
-    }
-
-    editConfirmation(id);
+    setIsEditing(!isEditing);
   }
 
   function handleCompleteTask(id, task) {
@@ -112,13 +100,17 @@ export function TodoItem({
           </div>
           {isEditing ? (
             <div className={styles.task_buttons}>
-              <IconButton variant="primary" type="submit" isValid={validation.isValid}>
+              <IconButton
+                variant="primary"
+                type="submit"
+                isValid={validation.isValid}
+              >
                 <ConfirmIcon />
               </IconButton>
               <IconButton
                 variant="secoundary"
                 type="button"
-                onClick={() => handleEditConfirmation()}
+                onClick={() => setIsEditing(false)}
               >
                 <CancelIcon />
               </IconButton>
@@ -127,7 +119,10 @@ export function TodoItem({
             <div className={styles.task_buttons}>
               <IconButton
                 variant="primary"
-                onClick={() => handleEditConfirmation(taskIndex)}
+                onClick={(e) => {
+                  e.preventDefault();
+                  setIsEditing(true);
+                }}
                 type="button"
               >
                 <EditIcon />
