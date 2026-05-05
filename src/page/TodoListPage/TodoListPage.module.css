@@ -1,0 +1,16 @@
+.todo {
+  width: 28rem;
+  max-width: 80%;
+  margin: 20px auto 20px auto;
+  background-color: var(--primary-todo-bg-color);
+  text-align: center;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.3);
+}
+
+.content {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+}

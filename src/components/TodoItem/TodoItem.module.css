@@ -1,0 +1,33 @@
+.task {
+  display: flex;
+  background-color: var(--primary-task-bg-color);
+  border-radius: 6px;
+  justify-content: space-between;
+  padding: 1rem;
+  margin: 0.5rem;
+  box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.2);
+  margin-bottom: 0.7rem;
+  
+}
+
+.task_main {
+  display: flex;
+  flex-direction: row wrap;
+  align-items: center;
+  gap: 1rem;
+  width: 15rem;
+  max-width: 80%;
+
+}
+
+.task_main p{
+  margin-right: 2.5rem;
+  margin-left: 2.2rem;
+  position: absolute;
+  margin-top: 5rem;
+}
+
+.task_buttons {
+  display: flex;
+  gap: 1rem;
+}

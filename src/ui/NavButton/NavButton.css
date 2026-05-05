@@ -1,0 +1,14 @@
+.tab-button{
+    background-color: transparent;
+    color: var(--btn-tab-color);
+    border-color: transparent;
+    list-style: none;
+    cursor: pointer;
+}
+
+.active{
+    text-decoration: underline;
+    color: var(--btn-tab-active-color);
+    background-color: transparent;
+    
+}

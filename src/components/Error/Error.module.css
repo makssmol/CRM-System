@@ -1,0 +1,14 @@
+.error {
+  max-width: 30rem;
+  margin: 1rem auto;
+  padding: 1rem;
+  background-color: var(--error-bg-color);
+  border-radius: 6px;
+  box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 30rem) {
+  .error {
+    max-width: 20rem;
+  }
+}
