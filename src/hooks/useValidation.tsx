@@ -6,7 +6,7 @@ export function useValidation() {
     message: "",
   });
 
-  const validateTitle = (title) => {
+  const validateTitle = (title: string) => {
     const trimmed = title.trim();
 
     if (trimmed === "") {
