@@ -1,6 +1,9 @@
 import "./Button.css";
 
-export function Button({ variant = "button", children, isValid = true }) {
+export const Button: React.FC<{variant?: string, children: React.ReactNode, isValid: boolean}> = (props) =>  {
+  
+  const {variant = 'button' , children, isValid = true} = props
+  
   return (
     <button
       type="submit"

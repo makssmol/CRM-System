@@ -98,6 +98,7 @@ export const TodoItem: React.FC<{
             />
             {isEditing && (
               <Input
+                type="text"
                 defaultValue={title}
                 inputVariant="input"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
