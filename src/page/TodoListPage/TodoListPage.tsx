@@ -1,34 +1,40 @@
 import styles from "./TodoListPage.module.css";
 import { useEffect, useState } from "react";
-import { AddTask, Tabs, TodoList, Error } from "../../components";
-import { useValidation } from "../../hooks";
-import { fetchTasks } from "../../api";
+import { AddTask, Tabs, TodoList, TaskError } from "../../components/index.js";
+import { useValidation } from "../../hooks/index.js";
+import { fetchTasks } from "../../api/index.js";
+import {
+  type TasksData,
+  type TaskInfo,
+  type TaskBody,
+  type TaskModel,
+} from "../../types/basicTypes.js";
 
-export function TodoListPage() {
+export const TodoListPage: React.FC = () => {
   const [selectedTask, setSelectedTask] = useState("all");
-  const [taskBody, setTaskBody] = useState({
+  const [taskBody, setTaskBody] = useState<TaskBody>({
     isDone: false,
     title: "",
   });
   const [isFetching, setIsFetching] = useState(false);
-  const [task, setTask] = useState([]);
-  const [info, setInfo] = useState({});
-  const [error, setError] = useState();
-  const { validation, validateTitle} = useValidation();
+  const [task, setTask] = useState<TasksData[]>([]);
+  const [info, setInfo] = useState<TaskInfo>();
+  const [error, setError] = useState<string | null>();
+  const { validation, validateTitle } = useValidation();
 
-  function handleLoadTask(selectedTask) {
-    async function loadTasks(filter) {
+  function handleLoadTask(selectedTask: string) {
+    async function loadTasks(filter: string) {
       setIsFetching(true);
       setError(null);
 
       try {
-        const taskData = await fetchTasks(filter);
+        const taskData: TaskModel = await fetchTasks(filter);
         setTask(taskData.data || []);
         setInfo(taskData.info || {});
-      } catch (error) {
-        setError(error.message || "Не удалось загрузить задачи");
-        setTask([]);
-        setInfo({});
+      } catch (error: any) {
+          setError(error.message || "Не удалось загрузить задачи");
+          setTask([]);
+          setInfo(undefined);
       } finally {
         setIsFetching(false);
       }
@@ -41,13 +47,13 @@ export function TodoListPage() {
     handleLoadTask(selectedTask);
   }, [selectedTask]);
 
-  function handleInputChange(title) {
+  function handleInputChange(title: string) {
     validateTitle(title);
     setTaskBody({ isDone: false, title });
   }
 
   if (error) {
-    return <Error title="An error occurred" message={error} />;
+    return <TaskError title="An error occurred" message={error} />;
   }
   if (!task || !info) {
     return <p>No tasks available</p>;
@@ -80,4 +86,4 @@ export function TodoListPage() {
       </div>
     </div>
   );
-}
+};

@@ -1,6 +1,6 @@
 import styles from "./Error.module.css"
 
-export function Error({ title, message }) {
+export function TaskError({ title, message }) {
   return (
     <div className={styles.error}>
       <h2>{title}</h2>

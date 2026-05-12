@@ -1,8 +1,11 @@
-export async function fetchTasks(taskFilter) {
+import type { TasksData, TaskBody} from "../types/basicTypes";
+
+
+export async function fetchTasks(taskFilter:string) {
   const response = await fetch(
     `https://easydev.club/api/v1/todos?filter=${taskFilter}`
   );
-  const resData = await response.json();
+  const resData: TasksData = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to display task");
@@ -10,7 +13,8 @@ export async function fetchTasks(taskFilter) {
 
   return resData;
 }
-export async function createNewTask(newTask) {
+
+export async function createNewTask(newTask: TaskBody) {
   const response = await fetch("https://easydev.club/api/v1/todos", {
     method: "POST",
     body: JSON.stringify(newTask),
@@ -18,7 +22,7 @@ export async function createNewTask(newTask) {
       "Content-Type": "application/json",
     },
   });
-  const resData = await response.json();
+  const resData: TasksData  = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to add new task");
@@ -27,7 +31,7 @@ export async function createNewTask(newTask) {
   return resData.title;
 }
 
-export async function deleteTask(id) {
+export async function deleteTask(id: number) {
   const response = await fetch(
     `https://easydev.club/api/v1/todos/${id}`,
     {
@@ -37,7 +41,7 @@ export async function deleteTask(id) {
       },
     }
   );
-  const resData = response;
+  const resData: TasksData =  await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to delete task");
@@ -46,7 +50,7 @@ export async function deleteTask(id) {
   return resData.title;
 }
 
-export async function changeTask(id, task) {
+export async function changeTask(id: number, task: TaskBody) {
 
   const response = await fetch(
     `https://easydev.club/api/v1/todos/${id}`,
@@ -58,7 +62,7 @@ export async function changeTask(id, task) {
       },
     }
   );
-  const resData = response;
+  const resData: TasksData =  await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to edit task");
