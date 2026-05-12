@@ -1,11 +1,11 @@
-import type { TasksData, TaskBody} from "../types/basicTypes";
+import type { TasksData, TaskBody, TaskModel} from "../types/basicTypes";
 
 
 export async function fetchTasks(taskFilter:string) {
   const response = await fetch(
     `https://easydev.club/api/v1/todos?filter=${taskFilter}`
   );
-  const resData: TasksData = await response.json();
+  const resData: TaskModel = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to display task");
