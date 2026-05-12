@@ -1,7 +1,6 @@
-import type { TasksData, TaskBody, TaskModel} from "../types/basicTypes";
+import type { TasksData, TaskBody, TaskModel } from "../types/basicTypes";
 
-
-export async function fetchTasks(taskFilter:string) {
+export async function fetchTasks(taskFilter: string) {
   const response = await fetch(
     `https://easydev.club/api/v1/todos?filter=${taskFilter}`
   );
@@ -22,7 +21,7 @@ export async function createNewTask(newTask: TaskBody) {
       "Content-Type": "application/json",
     },
   });
-  const resData: TasksData  = await response.json();
+  const resData: TaskBody = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to add new task");
@@ -32,37 +31,32 @@ export async function createNewTask(newTask: TaskBody) {
 }
 
 export async function deleteTask(id: number) {
-  const response = await fetch(
-    `https://easydev.club/api/v1/todos/${id}`,
-    {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  const resData: TasksData =  await response.json();
+  console.log("??????");
+  const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const text = await response.text();
+  const resData: TasksData = text ? JSON.parse(text) : {};
 
   if (!response.ok) {
     throw new Error("Failed to delete task");
   }
-
-  return resData.title;
+  console.log("!!!");
+  return resData;
 }
 
 export async function changeTask(id: number, task: TaskBody) {
-
-  const response = await fetch(
-    `https://easydev.club/api/v1/todos/${id}`,
-    {
-      method: "PUT",
-      body: JSON.stringify(task),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  const resData: TasksData =  await response.json();
+  const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
+    method: "PUT",
+    body: JSON.stringify(task),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const resData: TaskBody = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to edit task");
@@ -70,4 +64,3 @@ export async function changeTask(id: number, task: TaskBody) {
 
   return resData.title;
 }
-

@@ -1,36 +1,39 @@
 import styles from "./TodoItem.module.css";
-import { useState } from "react";
+import React, { useState } from "react";
 import { deleteTask, changeTask } from "../../api";
 import { useValidation } from "../../hooks";
-import { Checkbox, Input, Button, IconButton } from "../../ui";
+import { Checkbox, Input, IconButton } from "../../ui";
 import {
   EditIcon,
   DeleteIcon,
   ConfirmIcon,
   CancelIcon,
 } from "../../assets/icons";
+import type { TaskBody } from "../../types/basicTypes";
 
-export function TodoItem({
-  loadTasks,
-  setError,
-  taskIndex,
-  title,
-  isComplete,
-  selectedTask,
-}) {
+export const TodoItem: React.FC<{
+  taskIndex: number;
+  title: string;
+  isComplete: boolean;
+  loadTasks: (arg: string) => void;
+  setError: (errorMessage: string | null) => void;
+  selectedTask: string;
+}> = (props) => {
+  const { taskIndex, title, isComplete, loadTasks, setError, selectedTask } =
+    props;
+
   const { validation, validateTitle } = useValidation();
-
   const [editedTitle, setEditedTitle] = useState(title);
   const [isEditing, setIsEditing] = useState(false);
 
-  function handleEditTask(id, task) {
+  function handleEditTask(id: number, task: TaskBody) {
     setIsEditing(true);
     console.log("isEditing: ", isEditing);
-    async function editTaskById(id, task) {
+    async function editTaskById(id: number, task: TaskBody) {
       try {
         await changeTask(id, task);
-        await loadTasks(selectedTask);
-      } catch (error) {
+        loadTasks(selectedTask);
+      } catch (error: any) {
         setError(error.message || "Не удалось отредактировать задачу");
       }
     }
@@ -38,12 +41,12 @@ export function TodoItem({
     setIsEditing(!isEditing);
   }
 
-  function handleCompleteTask(id, task) {
-    async function markTaskForCompletion(id, task) {
+  function handleCompleteTask(id: number, task: TaskBody) {
+    async function markTaskForCompletion(id: number, task: TaskBody) {
       try {
         await changeTask(id, task);
-        await loadTasks(selectedTask);
-      } catch (error) {
+        loadTasks(selectedTask);
+      } catch (error: any) {
         setError(error.message || "Не удалось поменять статус задачи");
       }
     }
@@ -51,20 +54,24 @@ export function TodoItem({
     markTaskForCompletion(id, task);
   }
 
-  function handleDeleteTask(id) {
-    async function deleteTaskbyId(id) {
+  function handleDeleteTask(id: number) {
+    console.log("start");
+    async function deleteTaskbyId(id: number) {
       try {
         await deleteTask(id);
-        await loadTasks(selectedTask);
-      } catch (error) {
+        console.log("mid");
+        loadTasks(selectedTask);
+      } catch (error: any) {
+        console.log("error occurred");
         setError(error.message || "Не удалось удалить задачу");
       }
     }
 
     deleteTaskbyId(id);
+    console.log("end");
   }
 
-  function handleEditInput(title) {
+  function handleEditInput(title: string) {
     validateTitle(title);
     setEditedTitle(title);
   }
@@ -93,7 +100,9 @@ export function TodoItem({
               <Input
                 defaultValue={title}
                 inputVariant="input"
-                onChange={(event) => handleEditInput?.(event.target.value)}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleEditInput?.(event.target.value)
+                }
                 validationMessage={validation.message}
               />
             )}
@@ -119,7 +128,7 @@ export function TodoItem({
             <div className={styles.task_buttons}>
               <IconButton
                 variant="primary"
-                onClick={(e) => {
+                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                   e.preventDefault();
                   setIsEditing(true);
                 }}
@@ -140,4 +149,4 @@ export function TodoItem({
       </form>
     </>
   );
-}
+};
