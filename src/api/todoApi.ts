@@ -31,7 +31,6 @@ export async function createNewTask(newTask: TaskBody) {
 }
 
 export async function deleteTask(id: number) {
-  console.log("??????");
   const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
     method: "DELETE",
     headers: {
@@ -44,7 +43,6 @@ export async function deleteTask(id: number) {
   if (!response.ok) {
     throw new Error("Failed to delete task");
   }
-  console.log("!!!");
   return resData;
 }
 

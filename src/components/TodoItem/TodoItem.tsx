@@ -55,14 +55,11 @@ export const TodoItem: React.FC<{
   }
 
   function handleDeleteTask(id: number) {
-    console.log("start");
     async function deleteTaskbyId(id: number) {
       try {
         await deleteTask(id);
-        console.log("mid");
         loadTasks(selectedTask);
       } catch (error: any) {
-        console.log("error occurred");
         setError(error.message || "Не удалось удалить задачу");
       }
     }
