@@ -1,17 +1,16 @@
 import styles from "./AddTask.module.css";
 import { Button, Input } from "../../ui";
-import { useEffect } from "react";
 import { createNewTask } from "../../api";
-import type { TaskBody } from "../../types/basicTypes";
+import type { TodoRequest, TodoFilter } from "../../types/basicTypes";
 
 export const AddTask: React.FC<{
-  loadTasks: (arg: string) => void;
+  loadTasks: (arg: TodoFilter) => void;
   setError: (errorMessage: string | null) => void;
-  taskObject: TaskBody;
+  taskObject: TodoRequest;
   onUserInput: (title: string) => void;
   isValid: boolean;
   validationMessage: string;
-  selectedTask: string;
+  selectedTask: TodoFilter;
 }> = (props) => {
   const {
     loadTasks,
@@ -23,16 +22,18 @@ export const AddTask: React.FC<{
     selectedTask,
   } = props;
 
-  function handleAddTask(newTask: TaskBody) {
-    async function addTask(newTask: TaskBody) {
+  function handleAddTask(newTask: TodoRequest): void {
+    async function addTask(newTask: TodoRequest): Promise<void> {
       if (!newTask) {
         return;
       }
       try {
         await createNewTask(newTask);
-        loadTasks(selectedTask);
-      } catch (error: any) {
-        setError(error.message || "Не удалось добавить задачу");
+        await loadTasks(selectedTask);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message || "Не удалось добавить задачу");
+        }
       }
     }
 
@@ -49,14 +50,14 @@ export const AddTask: React.FC<{
       <div className={styles.header}>
         <Input
           inputVariant="input"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) => onUserInput?.(event.target.value)}
-          placeholder="Task To Be Done..."
+          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+            onUserInput?.(event.target.value)
+          }
+          placeholder="Задача на выполнение..."
           type="text"
           validationMessage={validationMessage}
         />
-        <Button isValid={isValid}>
-          Add
-        </Button>
+        <Button isValid={isValid}>Добавить</Button>
       </div>
     </form>
   );

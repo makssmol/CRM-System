@@ -1,10 +1,10 @@
-import type { TasksData, TaskBody, TaskModel } from "../types/basicTypes";
+import type { Todo, TodoRequest, MetaResponce, TodoFilter } from "../types/basicTypes";
 
-export async function fetchTasks(taskFilter: string) {
+export async function fetchTasks(taskFilter: TodoFilter): Promise<MetaResponce> {
   const response = await fetch(
     `https://easydev.club/api/v1/todos?filter=${taskFilter}`
   );
-  const resData: TaskModel = await response.json();
+  const resData: MetaResponce = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to display task");
@@ -13,7 +13,7 @@ export async function fetchTasks(taskFilter: string) {
   return resData;
 }
 
-export async function createNewTask(newTask: TaskBody) {
+export async function createNewTask(newTask: TodoRequest): Promise<string> {
   const response = await fetch("https://easydev.club/api/v1/todos", {
     method: "POST",
     body: JSON.stringify(newTask),
@@ -21,7 +21,7 @@ export async function createNewTask(newTask: TaskBody) {
       "Content-Type": "application/json",
     },
   });
-  const resData: TaskBody = await response.json();
+  const resData: Todo = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to add new task");
@@ -30,7 +30,7 @@ export async function createNewTask(newTask: TaskBody) {
   return resData.title;
 }
 
-export async function deleteTask(id: number) {
+export async function deleteTask(id: number): Promise<Todo> {
   const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
     method: "DELETE",
     headers: {
@@ -38,7 +38,7 @@ export async function deleteTask(id: number) {
     },
   });
   const text = await response.text();
-  const resData: TasksData = text ? JSON.parse(text) : {};
+  const resData: Todo = text ? JSON.parse(text) : {};
 
   if (!response.ok) {
     throw new Error("Failed to delete task");
@@ -46,7 +46,7 @@ export async function deleteTask(id: number) {
   return resData;
 }
 
-export async function changeTask(id: number, task: TaskBody) {
+export async function changeTask(id: number, task: TodoRequest): Promise<string>{
   const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
     method: "PUT",
     body: JSON.stringify(task),
@@ -54,7 +54,7 @@ export async function changeTask(id: number, task: TaskBody) {
       "Content-Type": "application/json",
     },
   });
-  const resData: TaskBody = await response.json();
+  const resData: Todo = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to edit task");

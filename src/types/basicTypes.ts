@@ -1,22 +1,33 @@
-export interface TasksData {
+export interface Todo {
   created: string;
   id: number;
   isDone: boolean;
   title: string;
 }
 
-export interface TaskInfo {
+export interface TodoInfo {
   all: number;
   completed: number;
   inWork: number;
 }
 
-export interface TaskModel {
-  data: TasksData[];
-  info: TaskInfo;
+export interface MetaResponce {
+  data: Todo[];
+  info: TodoInfo;
   meta: {
     totalAmount: number;
   };
 }
 
-export type TaskBody = Omit<TasksData, 'created' | 'id'>
+export type TodoRequest = Omit<Todo, 'created' | 'id'>
+
+export interface TodoValidation {
+  validation: {
+    isValid: boolean
+    message: string
+  }
+  validateTitle: (title:string) => boolean;
+}
+
+export type TodoFilter = "all" | "completed" | "inWork"
+

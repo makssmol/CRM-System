@@ -1,13 +1,13 @@
 import type React from "react";
 import { TodoItem } from "../TodoItem";
-import type { TasksData } from "../../types/basicTypes";
+import type { Todo, TodoFilter } from "../../types/basicTypes";
 
 export const TodoList: React.FC<{
-  loadTasks: (arg: string) => void;
+  loadTasks: (arg: TodoFilter) => void;
   setError: (errorMessage: string | null) => void;
   isFetching: boolean;
-  task: TasksData[];
-  selectedTask: string;
+  task: Todo[];
+  selectedTask: TodoFilter;
 }> = (props) => {
   const { loadTasks, setError, isFetching, task, selectedTask } = props;
   return (

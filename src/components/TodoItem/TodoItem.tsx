@@ -9,66 +9,70 @@ import {
   ConfirmIcon,
   CancelIcon,
 } from "../../assets/icons";
-import type { TaskBody } from "../../types/basicTypes";
+import type { TodoRequest, TodoFilter } from "../../types/basicTypes";
 
 export const TodoItem: React.FC<{
   taskIndex: number;
   title: string;
   isComplete: boolean;
-  loadTasks: (arg: string) => void;
+  loadTasks: (arg: TodoFilter) => void;
   setError: (errorMessage: string | null) => void;
-  selectedTask: string;
+  selectedTask: TodoFilter;
 }> = (props) => {
   const { taskIndex, title, isComplete, loadTasks, setError, selectedTask } =
     props;
 
   const { validation, validateTitle } = useValidation();
-  const [editedTitle, setEditedTitle] = useState(title);
-  const [isEditing, setIsEditing] = useState(false);
+  const [editedTitle, setEditedTitle] = useState<string>(title);
+  const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  function handleEditTask(id: number, task: TaskBody) {
+  function handleEditTask(id: number, task: TodoRequest): void {
     setIsEditing(true);
-    console.log("isEditing: ", isEditing);
-    async function editTaskById(id: number, task: TaskBody) {
+    async function editTaskById(id: number, task: TodoRequest): Promise<void> {
       try {
         await changeTask(id, task);
-        loadTasks(selectedTask);
-      } catch (error: any) {
-        setError(error.message || "Не удалось отредактировать задачу");
+        await loadTasks(selectedTask);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message || "Не удалось отредактировать задачу");
+        }
       }
     }
     editTaskById(id, task);
     setIsEditing(!isEditing);
   }
 
-  function handleCompleteTask(id: number, task: TaskBody) {
-    async function markTaskForCompletion(id: number, task: TaskBody) {
+  function handleCompleteTask(id: number, task: TodoRequest): void {
+    async function markTaskForCompletion(id: number, task: TodoRequest): Promise<void> {
       try {
         await changeTask(id, task);
-        loadTasks(selectedTask);
-      } catch (error: any) {
-        setError(error.message || "Не удалось поменять статус задачи");
+        await loadTasks(selectedTask);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message || "Не удалось поменять статус задачи");
+        }
       }
     }
 
     markTaskForCompletion(id, task);
   }
 
-  function handleDeleteTask(id: number) {
-    async function deleteTaskbyId(id: number) {
+  function handleDeleteTask(id: number): void {
+    async function deleteTaskbyId(id: number): Promise<void> {
       try {
         await deleteTask(id);
-        loadTasks(selectedTask);
-      } catch (error: any) {
-        setError(error.message || "Не удалось удалить задачу");
+        await loadTasks(selectedTask);
+      } catch (error: unknown) {
+        if (error instanceof Error) {
+          setError(error.message || "Не удалось поменять статус задачи");
+        }
       }
     }
 
     deleteTaskbyId(id);
-    console.log("end");
   }
 
-  function handleEditInput(title: string) {
+  function handleEditInput(title: string): void {
     validateTitle(title);
     setEditedTitle(title);
   }

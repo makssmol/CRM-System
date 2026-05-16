@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { type TodoValidation } from "../types/basicTypes";
 
-export function useValidation() {
+export function useValidation(): TodoValidation {
   const [validation, setValidation] = useState({
     isValid: true,
     message: "",
   });
 
-  const validateTitle = (title: string) => {
+  const validateTitle = (title: string): boolean => {
     const trimmed = title.trim();
 
     if (trimmed === "") {

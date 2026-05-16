@@ -4,7 +4,7 @@ import "./IconButton.css";
 export const IconButton: React.FC<{
   children: React.ReactNode;
   onClick?: (() => void) | ((e: React.MouseEvent<HTMLButtonElement>) => void);
-  type: "submit" | "reset" | "button" | undefined;
+  type?: "submit" | "reset" | "button";
   variant: "primary" | "secoundary" | "danger";
   isValid?: boolean;
 }> = (props) => {
