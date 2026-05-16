@@ -1,13 +1,13 @@
 import "./Input.css";
 
 export const Input: React.FC<{
-  inputVariant: string;
+  inputVariant?: string;
   placeholder?: string;
-  type: string;
+  type?: string;
   defaultValue?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
-  validationMessage: string;
+  validationMessage?: string;
 }> = (props) => {
   const {
     inputVariant = "input",

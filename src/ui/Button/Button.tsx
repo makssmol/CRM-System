@@ -1,14 +1,14 @@
 import "./Button.css";
 
-export const Button: React.FC<{variant?: string, children: React.ReactNode, isValid: boolean}> = (props) =>  {
+export const Button: React.FC<{variant?: string, children: React.ReactNode, disabled?: boolean}> = (props) =>  {
   
-  const {variant = 'button' , children, isValid = true} = props
+  const {variant = 'button' , children, disabled = true} = props
   
   return (
     <button
       type="submit"
-      className={!isValid ? variant + " block" : variant}
-      disabled={!isValid}
+      className={!disabled ? variant + " block" : variant}
+      disabled={!disabled}
     >
       {children}
     </button>

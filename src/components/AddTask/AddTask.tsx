@@ -1,34 +1,38 @@
 import styles from "./AddTask.module.css";
 import { Button, Input } from "../../ui";
 import { createNewTask } from "../../api";
-import type { TodoRequest, TodoFilter } from "../../types/basicTypes";
+import type { TodoFilter } from "../../types/basicTypes";
+import { useState } from "react";
+import { useValidation } from "../../hooks";
 
 export const AddTask: React.FC<{
   loadTasks: (arg: TodoFilter) => void;
   setError: (errorMessage: string | null) => void;
-  taskObject: TodoRequest;
-  onUserInput: (title: string) => void;
-  isValid: boolean;
-  validationMessage: string;
   selectedTask: TodoFilter;
 }> = (props) => {
   const {
     loadTasks,
     setError,
-    taskObject,
-    onUserInput,
-    isValid,
-    validationMessage,
     selectedTask,
   } = props;
+  const [taskText, setTaskText] = useState<string>("");
 
-  function handleAddTask(newTask: TodoRequest): void {
-    async function addTask(newTask: TodoRequest): Promise<void> {
-      if (!newTask) {
+  const { validation, validateTitle } = useValidation();
+
+  function handleInputChange(title: string): void {
+    validateTitle(title);
+    setTaskText(title);
+  }
+
+  function handleAddTask(event: React.SubmitEvent<HTMLFormElement>, title: string): void {
+    event.preventDefault();
+    async function addTask(title: string): Promise<void> {
+      if (!title) {
         return;
       }
       try {
-        await createNewTask(newTask);
+        // await validateTitle(title);
+        await createNewTask(title);
         await loadTasks(selectedTask);
       } catch (error: unknown) {
         if (error instanceof Error) {
@@ -37,27 +41,26 @@ export const AddTask: React.FC<{
       }
     }
 
-    addTask(newTask);
+    addTask(title);
   }
 
   return (
     <form
-      onSubmit={(e) => {
-        e.preventDefault();
-        handleAddTask?.(taskObject);
+      onSubmit={(event: React.SubmitEvent<HTMLFormElement>) => {
+        handleAddTask(event, taskText);
       }}
     >
       <div className={styles.header}>
         <Input
           inputVariant="input"
           onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            onUserInput?.(event.target.value)
+            handleInputChange(event.target.value)
           }
           placeholder="Задача на выполнение..."
           type="text"
-          validationMessage={validationMessage}
+          validationMessage={validation.message}
         />
-        <Button isValid={isValid}>Добавить</Button>
+        <Button disabled={validation.isValid}>Добавить</Button>
       </div>
     </form>
   );

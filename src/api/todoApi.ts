@@ -1,10 +1,17 @@
-import type { Todo, TodoRequest, MetaResponce, TodoFilter } from "../types/basicTypes";
+import type {
+  Todo,
+  TodoRequest,
+  MetaResponse,
+  TodoFilter,
+} from "../types/basicTypes";
 
-export async function fetchTasks(taskFilter: TodoFilter): Promise<MetaResponce> {
+export async function fetchTasks(
+  taskFilter: TodoFilter
+): Promise<MetaResponse> {
   const response = await fetch(
     `https://easydev.club/api/v1/todos?filter=${taskFilter}`
   );
-  const resData: MetaResponce = await response.json();
+  const resData: MetaResponse = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to display task");
@@ -13,7 +20,12 @@ export async function fetchTasks(taskFilter: TodoFilter): Promise<MetaResponce> 
   return resData;
 }
 
-export async function createNewTask(newTask: TodoRequest): Promise<string> {
+export async function createNewTask(taskTitle: string): Promise<string> {
+  const newTask: TodoRequest = {
+    title: taskTitle,
+    isDone: false,
+  };
+
   const response = await fetch("https://easydev.club/api/v1/todos", {
     method: "POST",
     body: JSON.stringify(newTask),
@@ -46,7 +58,10 @@ export async function deleteTask(id: number): Promise<Todo> {
   return resData;
 }
 
-export async function changeTask(id: number, task: TodoRequest): Promise<string>{
+export async function changeTask(
+  id: number,
+  task: TodoRequest
+): Promise<string> {
   const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
     method: "PUT",
     body: JSON.stringify(task),

@@ -6,22 +6,17 @@ import { fetchTasks } from "../../api/index.js";
 import {
   type Todo,
   type TodoInfo,
-  type TodoRequest,
-  type MetaResponce,
+  type MetaResponse,
   type TodoFilter,
 } from "../../types/basicTypes.js";
 
 export const TodoListPage: React.FC = () => {
   const [selectedTask, setSelectedTask] = useState<TodoFilter>("all");
-  const [taskBody, setTaskBody] = useState<TodoRequest>({
-    isDone: false,
-    title: "",
-  });
   const [isFetching, setIsFetching] = useState<boolean>(false);
   const [task, setTask] = useState<Todo[]>([]);
-  const [info, setInfo] = useState<TodoInfo>();
+  const [info, setInfo] = useState<TodoInfo | null>();
   const [error, setError] = useState<string | null>();
-  const { validation, validateTitle } = useValidation();
+
 
   function handleLoadTask(selectedTask: TodoFilter): void {
     async function loadTasks(filter: TodoFilter): Promise<void> {
@@ -29,14 +24,14 @@ export const TodoListPage: React.FC = () => {
       setError(null);
 
       try {
-        const taskData: MetaResponce = await fetchTasks(filter);
+        const taskData: MetaResponse = await fetchTasks(filter);
         setTask(taskData.data || []);
-        setInfo(taskData.info || {});
+        setInfo(taskData.info);
       } catch (error: unknown) {
         if (error instanceof Error){
           setError(error.message || "Не удалось загрузить задачи");
           setTask([]);
-          setInfo(undefined);
+          setInfo(null);
         }
       } finally {
         setIsFetching(false);
@@ -50,11 +45,6 @@ export const TodoListPage: React.FC = () => {
     handleLoadTask(selectedTask);
   }, [selectedTask]);
 
-  function handleInputChange(title: string): void {
-    validateTitle(title);
-    setTaskBody({ isDone: false, title });
-  }
-
   if (error) {
     return <TaskError title="An error occurred" message={error} />;
   }
@@ -67,10 +57,6 @@ export const TodoListPage: React.FC = () => {
       <AddTask
         loadTasks={handleLoadTask}
         setError={setError}
-        taskObject={taskBody}
-        onUserInput={handleInputChange}
-        isValid={validation.isValid}
-        validationMessage={validation.message}
         selectedTask={selectedTask}
       />
       <div className={styles.content}>

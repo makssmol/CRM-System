@@ -11,23 +11,22 @@ export interface TodoInfo {
   inWork: number;
 }
 
-export interface MetaResponce {
+export interface MetaResponse {
   data: Todo[];
-  info: TodoInfo;
+  info?: TodoInfo;
   meta: {
     totalAmount: number;
   };
 }
 
-export type TodoRequest = Omit<Todo, 'created' | 'id'>
+export type TodoRequest = Partial<Omit<Todo, "created" | "id">>;
 
 export interface TodoValidation {
   validation: {
-    isValid: boolean
-    message: string
-  }
-  validateTitle: (title:string) => boolean;
+    isValid: boolean;
+    message: string;
+  };
+  validateTitle: (title: string) => boolean;
 }
 
-export type TodoFilter = "all" | "completed" | "inWork"
-
+export type TodoFilter = "all" | "completed" | "inWork";

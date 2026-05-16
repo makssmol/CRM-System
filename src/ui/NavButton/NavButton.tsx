@@ -2,7 +2,7 @@ import type React from "react";
 import "./NavButton.css";
 
 export const NavButton: React.FC<{
-  variant: string;
+  variant?: string;
   selected: boolean;
   onClick: () => void;
   children: React.ReactNode;

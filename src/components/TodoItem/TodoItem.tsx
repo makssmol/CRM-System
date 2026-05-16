@@ -26,7 +26,8 @@ export const TodoItem: React.FC<{
   const [editedTitle, setEditedTitle] = useState<string>(title);
   const [isEditing, setIsEditing] = useState<boolean>(false);
 
-  function handleEditTask(id: number, task: TodoRequest): void {
+  function handleEditTask(event:React.SubmitEvent<HTMLFormElement>, id: number, task: TodoRequest): void {
+    event.preventDefault()
     setIsEditing(true);
     async function editTaskById(id: number, task: TodoRequest): Promise<void> {
       try {
@@ -77,12 +78,16 @@ export const TodoItem: React.FC<{
     setEditedTitle(title);
   }
 
+  function handleEditConfirmation(event: React.MouseEvent<HTMLButtonElement>){
+    event.preventDefault();
+    setIsEditing(true);
+  }
+
   return (
     <>
       <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleEditTask(taskIndex, { title: editedTitle, isDone: isComplete });
+        onSubmit={(event: React.SubmitEvent<HTMLFormElement>) => {
+          handleEditTask(event, taskIndex, { title: editedTitle, isDone: isComplete });
         }}
       >
         <div className={styles.task}>
@@ -103,7 +108,7 @@ export const TodoItem: React.FC<{
                 defaultValue={title}
                 inputVariant="input"
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  handleEditInput?.(event.target.value)
+                  handleEditInput(event.target.value)
                 }
                 validationMessage={validation.message}
               />
@@ -114,7 +119,7 @@ export const TodoItem: React.FC<{
               <IconButton
                 variant="primary"
                 type="submit"
-                isValid={validation.isValid}
+                disabled={validation.isValid}
               >
                 <ConfirmIcon />
               </IconButton>
@@ -130,9 +135,8 @@ export const TodoItem: React.FC<{
             <div className={styles.task_buttons}>
               <IconButton
                 variant="primary"
-                onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-                  e.preventDefault();
-                  setIsEditing(true);
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                  handleEditConfirmation(event)
                 }}
                 type="button"
               >
@@ -141,7 +145,7 @@ export const TodoItem: React.FC<{
               <IconButton
                 variant="danger"
                 type="button"
-                onClick={() => handleDeleteTask?.(taskIndex)}
+                onClick={() => handleDeleteTask(taskIndex)}
               >
                 <DeleteIcon />
               </IconButton>
