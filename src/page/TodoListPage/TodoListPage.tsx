@@ -24,7 +24,7 @@ export const TodoListPage: React.FC = () => {
       setError(null);
 
       try {
-        const taskData: MetaResponse = await fetchTasks(filter);
+        const taskData: MetaResponse<Todo, TodoInfo> = await fetchTasks(filter);
         setTask(taskData.data || []);
         setInfo(taskData.info);
       } catch (error: unknown) {
@@ -55,9 +55,7 @@ export const TodoListPage: React.FC = () => {
   return (
     <div className={styles.todo}>
       <AddTask
-        loadTasks={handleLoadTask}
-        setError={setError}
-        selectedTask={selectedTask}
+        updateTodo={() => handleLoadTask(selectedTask)}
       />
       <div className={styles.content}>
         <Tabs
@@ -66,11 +64,9 @@ export const TodoListPage: React.FC = () => {
           setSelectedTask={setSelectedTask}
         />
         <TodoList
-          loadTasks={handleLoadTask}
-          setError={setError}
+          updateTodo={() => handleLoadTask(selectedTask)}
           isFetching={isFetching}
           task={task}
-          selectedTask={selectedTask}
         />
       </div>
     </div>

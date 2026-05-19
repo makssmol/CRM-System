@@ -9,45 +9,45 @@ import {
   ConfirmIcon,
   CancelIcon,
 } from "../../assets/icons";
+import { TaskError } from "../TaskError";
 import type { TodoRequest, TodoFilter } from "../../types/basicTypes";
 
 export const TodoItem: React.FC<{
   taskIndex: number;
   title: string;
   isComplete: boolean;
-  loadTasks: (arg: TodoFilter) => void;
-  setError: (errorMessage: string | null) => void;
-  selectedTask: TodoFilter;
+  updateTodo: () => void;
 }> = (props) => {
-  const { taskIndex, title, isComplete, loadTasks, setError, selectedTask } =
+  const { taskIndex, title, isComplete, updateTodo, } =
     props;
 
   const { validation, validateTitle } = useValidation();
   const [editedTitle, setEditedTitle] = useState<string>(title);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>();
 
-  function handleEditTask(event:React.SubmitEvent<HTMLFormElement>, id: number, task: TodoRequest): void {
+  function handleEditTask(event:React.SubmitEvent<HTMLFormElement>, id: number, title: string, isDone: boolean): void {
     event.preventDefault()
     setIsEditing(true);
-    async function editTaskById(id: number, task: TodoRequest): Promise<void> {
+    async function editTaskById(id: number, title: string, isDone: boolean): Promise<void> {
       try {
-        await changeTask(id, task);
-        await loadTasks(selectedTask);
+        await changeTask(id, title, isDone);
+        await updateTodo();
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message || "Не удалось отредактировать задачу");
         }
       }
     }
-    editTaskById(id, task);
+    editTaskById(id, title, isDone);
     setIsEditing(!isEditing);
   }
 
-  function handleCompleteTask(id: number, task: TodoRequest): void {
-    async function markTaskForCompletion(id: number, task: TodoRequest): Promise<void> {
+  function handleCompleteTask(id: number, title: string, isDone: boolean): void {
+    async function markTaskForCompletion(id: number, title: string, isDone: boolean): Promise<void> {
       try {
-        await changeTask(id, task);
-        await loadTasks(selectedTask);
+        await changeTask(id, title, isDone);
+        await updateTodo();
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message || "Не удалось поменять статус задачи");
@@ -55,14 +55,14 @@ export const TodoItem: React.FC<{
       }
     }
 
-    markTaskForCompletion(id, task);
+    markTaskForCompletion(id, title, isDone);
   }
 
   function handleDeleteTask(id: number): void {
     async function deleteTaskbyId(id: number): Promise<void> {
       try {
         await deleteTask(id);
-        await loadTasks(selectedTask);
+        await updateTodo();
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message || "Не удалось поменять статус задачи");
@@ -83,11 +83,15 @@ export const TodoItem: React.FC<{
     setIsEditing(true);
   }
 
+  if (error) {
+      return <TaskError title="An error occurred" message={error} />;
+    }
+
   return (
     <>
       <form
         onSubmit={(event: React.SubmitEvent<HTMLFormElement>) => {
-          handleEditTask(event, taskIndex, { title: editedTitle, isDone: isComplete });
+          handleEditTask(event, taskIndex, editedTitle, isComplete);
         }}
       >
         <div className={styles.task}>
@@ -95,10 +99,7 @@ export const TodoItem: React.FC<{
             <Checkbox
               checked={isComplete}
               onClick={() =>
-                handleCompleteTask(taskIndex, {
-                  title: title,
-                  isDone: !isComplete,
-                })
+                handleCompleteTask(taskIndex, title, !isComplete)
               }
               label={!isEditing && title}
             />

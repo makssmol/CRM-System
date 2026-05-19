@@ -3,13 +3,11 @@ import { TodoItem } from "../TodoItem";
 import type { Todo, TodoFilter } from "../../types/basicTypes";
 
 export const TodoList: React.FC<{
-  loadTasks: (arg: TodoFilter) => void;
-  setError: (errorMessage: string | null) => void;
+  updateTodo: () => void;
   isFetching: boolean;
   task: Todo[];
-  selectedTask: TodoFilter;
 }> = (props) => {
-  const { loadTasks, setError, isFetching, task, selectedTask } = props;
+  const { updateTodo, isFetching, task, } = props;
   return (
     <>
       {isFetching && <p>Tasks are loading</p>}
@@ -20,9 +18,7 @@ export const TodoList: React.FC<{
             taskIndex={data.id}
             title={data.title}
             isComplete={data.isDone}
-            loadTasks={loadTasks}
-            setError={setError}
-            selectedTask={selectedTask}
+            updateTodo={updateTodo}
           />
         ))}
     </>

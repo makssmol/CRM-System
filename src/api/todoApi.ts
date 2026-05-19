@@ -3,15 +3,16 @@ import type {
   TodoRequest,
   MetaResponse,
   TodoFilter,
+  TodoInfo,
 } from "../types/basicTypes";
 
 export async function fetchTasks(
   taskFilter: TodoFilter
-): Promise<MetaResponse> {
+): Promise<MetaResponse<Todo, TodoInfo>> {
   const response = await fetch(
     `https://easydev.club/api/v1/todos?filter=${taskFilter}`
   );
-  const resData: MetaResponse = await response.json();
+  const resData: MetaResponse<Todo, TodoInfo> = await response.json();
 
   if (!response.ok) {
     throw new Error("Failed to display task");
@@ -20,9 +21,9 @@ export async function fetchTasks(
   return resData;
 }
 
-export async function createNewTask(taskTitle: string): Promise<string> {
+export async function createNewTask(title: string): Promise<string> {
   const newTask: TodoRequest = {
-    title: taskTitle,
+    title: title,
     isDone: false,
   };
 
@@ -60,8 +61,15 @@ export async function deleteTask(id: number): Promise<Todo> {
 
 export async function changeTask(
   id: number,
-  task: TodoRequest
+  title: string,
+  isDone: boolean
 ): Promise<string> {
+
+  const task:TodoRequest = {
+    title: title,
+    isDone: isDone,
+  }
+
   const response = await fetch(`https://easydev.club/api/v1/todos/${id}`, {
     method: "PUT",
     body: JSON.stringify(task),

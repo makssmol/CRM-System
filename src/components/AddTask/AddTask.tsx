@@ -1,21 +1,18 @@
 import styles from "./AddTask.module.css";
 import { Button, Input } from "../../ui";
 import { createNewTask } from "../../api";
-import type { TodoFilter } from "../../types/basicTypes";
 import { useState } from "react";
 import { useValidation } from "../../hooks";
+import { TaskError } from "../TaskError";
 
 export const AddTask: React.FC<{
-  loadTasks: (arg: TodoFilter) => void;
-  setError: (errorMessage: string | null) => void;
-  selectedTask: TodoFilter;
+  updateTodo: () => void;
 }> = (props) => {
   const {
-    loadTasks,
-    setError,
-    selectedTask,
+    updateTodo,
   } = props;
   const [taskText, setTaskText] = useState<string>("");
+  const [error, setError] = useState<string | null>();
 
   const { validation, validateTitle } = useValidation();
 
@@ -33,7 +30,7 @@ export const AddTask: React.FC<{
       try {
         // await validateTitle(title);
         await createNewTask(title);
-        await loadTasks(selectedTask);
+        await updateTodo();
       } catch (error: unknown) {
         if (error instanceof Error) {
           setError(error.message || "Не удалось добавить задачу");
@@ -43,6 +40,10 @@ export const AddTask: React.FC<{
 
     addTask(title);
   }
+
+  if (error) {
+      return <TaskError title="An error occurred" message={error} />;
+    }
 
   return (
     <form
