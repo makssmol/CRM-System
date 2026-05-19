@@ -10,7 +10,7 @@ export const TodoList: React.FC<{
   const { updateTodo, isFetching, task, } = props;
   return (
     <>
-      {isFetching && <p>Tasks are loading</p>}
+      {isFetching && <p>Задачи загружаются</p>}
       {!isFetching &&
         task.map((data) => (
           <TodoItem

@@ -49,7 +49,7 @@ export const TodoListPage: React.FC = () => {
     return <TaskError title="An error occurred" message={error} />;
   }
   if (!task || !info) {
-    return <p>No tasks available</p>;
+    return <p>Нет доступных задач</p>;
   }
 
   return (
