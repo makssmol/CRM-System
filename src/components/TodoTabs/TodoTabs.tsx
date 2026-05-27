@@ -8,7 +8,7 @@ const STATUS_LABELS = {
   inWork: "В работе",
 } as const;
 
-export const Tabs: React.FC<{
+export const TodoTabs: React.FC<{
   info: TodoInfo;
   selectedTask: TodoFilter;
   setSelectedTask: (status: TodoFilter) => void;

@@ -1,6 +1,6 @@
 import type React from "react";
 import { TodoItem } from "../TodoItem";
-import type { Todo, TodoFilter } from "../../types/basicTypes";
+import type { Todo } from "../../types/basicTypes";
 
 export const TodoList: React.FC<{
   updateTodo: () => void;
