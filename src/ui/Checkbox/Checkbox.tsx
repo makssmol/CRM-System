@@ -1,8 +1,12 @@
 import "./Checkbox.css";
 import { useState } from "react";
-import { TickIcon } from "../../assets/icons/";
+import { TickIcon } from "../../assets/icons";
 
-export function Checkbox({ checked = false, onClick, label }) {
+export const Checkbox: React.FC<{ checked: boolean; onClick: () => void; label: string | boolean }> = (
+  props
+) => {
+  const { checked = false, onClick, label } = props;
+
   const [isChecked, setIsChecked] = useState(checked);
   return (
     <label className={`label ${isChecked ? "label--active" : ""}`}>
@@ -16,4 +20,4 @@ export function Checkbox({ checked = false, onClick, label }) {
       {label}
     </label>
   );
-}
+};

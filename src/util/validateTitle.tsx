@@ -1,44 +1,29 @@
-import { useState } from "react";
-
-export function useValidation() {
-  const [validation, setValidation] = useState({
-    isValid: true,
-    message: "",
-  });
-
-  const validateTitle = (title) => {
+ export const validateTitle = (title: string) => {
     const trimmed = title.trim();
 
     if (trimmed === "") {
-      setValidation({
+      return {
         isValid: false,
         message: "Это поле не может быть пустым",
-      });
-      return false;
+      };
     } else if (trimmed.length < 2) {
-      setValidation({
+      return {
         isValid: false,
         message: "Минимальная длина текста 2 символа",
-      });
-      return false;
+      };
     } else if (trimmed.length >= 64) {
-      setValidation({
+      return {
         isValid: false,
         message: "Максимальная длина текста 64 символа",
-      });
-      return false;
+      };
     }
 
-    setValidation({
+    return {
       isValid: true,
       message: "",
-    });
-    return true;
+    };
   };
 
 
-  return {
-    validation,
-    validateTitle,
-  };
-}
+
+// вопрос состоит в том как мне норм разобрать хук и сделать "чистую функцию", например я не знаю как мне выводить соотвествующее ошибке сообщение без стейта и т.д
