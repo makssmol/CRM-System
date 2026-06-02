@@ -7,7 +7,7 @@ export const Input: React.FC<{
   defaultValue?: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   disabled?: boolean;
-  validationMessage?: string;
+  errorMessage?: string;
 }> = (props) => {
   const {
     inputVariant = "input",
@@ -16,7 +16,7 @@ export const Input: React.FC<{
     defaultValue,
     onChange,
     disabled = false,
-    validationMessage,
+    errorMessage,
   } = props;
   return (
     <>
@@ -29,7 +29,7 @@ export const Input: React.FC<{
         placeholder={placeholder}
         required
       />
-      <p className="invalid">{validationMessage}</p>
+      <p className="invalid">{errorMessage}</p>
     </>
   );
 };

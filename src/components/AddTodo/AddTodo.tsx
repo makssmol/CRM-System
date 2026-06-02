@@ -2,7 +2,7 @@ import styles from "./AddTodo.module.css";
 import { Button, Input } from "../../ui";
 import { createNewTask } from "../../api/todoApi";
 import { useState, useEffect } from "react";
-import { useValidation } from "../../hooks/useValidation";
+import { validateTitle } from "../../util/validateTitle";
 
 export const AddTodo: React.FC<{
   updateTodo: () => void;
@@ -10,10 +10,17 @@ export const AddTodo: React.FC<{
   const { updateTodo } = props;
   const [taskText, setTaskText] = useState<string>("");
   const [error, setError] = useState<string | null>();
-  const { validation, validateTitle } = useValidation();
+  const [validation, setValidation] = useState({
+    isValid: true,
+    message: "",
+  });
 
   function handleTaskInput(title: string): void {
-    validateTitle(title);
+    //Здесь я добавил обновление стейта чтобы кнопка перманентно не дизейблилась
+    setValidation({
+      isValid: true,
+      message: "",
+    });
     setTaskText(title);
   }
 
@@ -23,6 +30,13 @@ export const AddTodo: React.FC<{
   ): Promise<void> {
     event.preventDefault();
     if (!title) {
+      return;
+    }
+    // в правке он говорил про валидацию на саббмит + хендлер для кнопки не давал вызвать саббмит 
+    // так что я вставил валидацию сюда и оно норм работает 
+    const valid = validateTitle(title);
+    setValidation(valid)
+    if (!valid.isValid) {
       return;
     }
     try {
@@ -55,7 +69,7 @@ export const AddTodo: React.FC<{
           }
           placeholder="Задача на выполнение..."
           type="text"
-          validationMessage={validation.message}
+          errorMessage={validation.message}
         />
         <Button disabled={validation.isValid}>Добавить</Button>
       </div>

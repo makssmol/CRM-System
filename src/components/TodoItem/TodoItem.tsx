@@ -1,7 +1,7 @@
 import styles from "./TodoItem.module.css";
 import React, { useState, useEffect } from "react";
 import { deleteTask, changeTask } from "../../api/todoApi";
-import { useValidation } from "../../hooks/useValidation";
+import { validateTitle } from "../../util/validateTitle";
 import { Checkbox, Input, IconButton } from "../../ui";
 import {
   EditIcon,
@@ -18,7 +18,10 @@ export const TodoItem: React.FC<{
 }> = (props) => {
   const { taskIndex, title, isComplete, updateTodo } = props;
 
-  const { validation, validateTitle } = useValidation();
+  const [validation, setValidation] = useState({
+    isValid: true,
+    message: "",
+  });
   const [editedTitle, setEditedTitle] = useState<string>(title);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>();
@@ -31,6 +34,14 @@ export const TodoItem: React.FC<{
   ): Promise<void> {
     event.preventDefault();
     setIsEditing(true);
+    if (!title) {
+      return;
+    }
+    const valid = validateTitle(title);
+    setValidation(valid)
+    if (!valid.isValid) {
+      return;
+    }
     try {
       await changeTask(id, title, isDone);
       await updateTodo();
@@ -69,7 +80,10 @@ export const TodoItem: React.FC<{
   }
 
   function handleEditTaskInput(title: string): void {
-    validateTitle(title);
+    setValidation({
+      isValid: true,
+      message: "",
+    });
     setEditedTitle(title);
   }
 
@@ -105,7 +119,7 @@ export const TodoItem: React.FC<{
               onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                 handleEditTaskInput(event.target.value)
               }
-              validationMessage={validation.message}
+              errorMessage={validation.message}
             />
           )}
         </div>
