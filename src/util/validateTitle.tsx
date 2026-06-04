@@ -1,4 +1,4 @@
- export const validateTitle = (title: string) => {
+export const validateTitle = (title: string) => {
     const trimmed = title.trim();
 
     if (trimmed === "") {
@@ -26,4 +26,4 @@
 
 
 
-// вопрос состоит в том как мне норм разобрать хук и сделать "чистую функцию", например я не знаю как мне выводить соотвествующее ошибке сообщение без стейта и т.д
+

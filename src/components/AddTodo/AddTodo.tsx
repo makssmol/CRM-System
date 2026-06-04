@@ -16,7 +16,6 @@ export const AddTodo: React.FC<{
   });
 
   function handleTaskInput(title: string): void {
-    //Здесь я добавил обновление стейта чтобы кнопка перманентно не дизейблилась
     setValidation({
       isValid: true,
       message: "",
@@ -32,8 +31,6 @@ export const AddTodo: React.FC<{
     if (!title) {
       return;
     }
-    // в правке он говорил про валидацию на саббмит + хендлер для кнопки не давал вызвать саббмит 
-    // так что я вставил валидацию сюда и оно норм работает 
     const valid = validateTitle(title);
     setValidation(valid)
     if (!valid.isValid) {
