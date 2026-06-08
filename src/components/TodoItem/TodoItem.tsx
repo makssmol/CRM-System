@@ -1,14 +1,20 @@
 import styles from "./TodoItem.module.css";
 import React, { useState, useEffect } from "react";
 import { deleteTask, changeTask } from "../../api/todoApi";
-import { validateTitle } from "../../util/validateTitle";
-import { Checkbox, Input, IconButton } from "../../ui";
+import type { CheckboxProps, FormProps } from "antd";
+import { Checkbox, Button, Input, Form } from "antd";
 import {
-  EditIcon,
-  DeleteIcon,
-  ConfirmIcon,
-  CancelIcon,
-} from "../../assets/icons";
+  CheckCircleOutlined,
+  CloseCircleOutlined,
+  DeleteOutlined,
+  EditOutlined,
+} from "@ant-design/icons";
+
+const checkboxStyles: CheckboxProps["styles"] = {
+  icon: {
+    borderRadius: 12,
+  },
+};
 
 export const TodoItem: React.FC<{
   taskIndex: number;
@@ -17,29 +23,17 @@ export const TodoItem: React.FC<{
   updateTodo: () => void;
 }> = (props) => {
   const { taskIndex, title, isComplete, updateTodo } = props;
-
-  const [validation, setValidation] = useState({
-    isValid: true,
-    message: "",
-  });
   const [editedTitle, setEditedTitle] = useState<string>(title);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>();
 
   async function handleEditTask(
-    event: React.SubmitEvent<HTMLFormElement>,
     id: number,
     title: string,
     isDone: boolean
   ): Promise<void> {
-    event.preventDefault();
     setIsEditing(true);
     if (!title) {
-      return;
-    }
-    const valid = validateTitle(title);
-    setValidation(valid)
-    if (!valid.isValid) {
       return;
     }
     try {
@@ -80,10 +74,6 @@ export const TodoItem: React.FC<{
   }
 
   function handleEditTaskInput(title: string): void {
-    setValidation({
-      isValid: true,
-      message: "",
-    });
     setEditedTitle(title);
   }
 
@@ -92,75 +82,102 @@ export const TodoItem: React.FC<{
     setIsEditing(true);
   }
 
- useEffect(() => {
-     if (error) {
-       alert(error);
-     }
-   }, [error]);
+  
+  const styleObject: FormProps["styles"] = {
+    helpItem: {
+      fontSize: "11px",
+    },
+  };
+
+  useEffect(() => {
+    if (error) {
+      alert(error);
+    }
+  }, [error]);
 
   return (
-    <form
-      onSubmit={(event: React.SubmitEvent<HTMLFormElement>) => {
-        handleEditTask(event, taskIndex, editedTitle, isComplete);
+    <Form
+      onFinish={() => {
+        handleEditTask(taskIndex, editedTitle, isComplete);
       }}
+      styles={styleObject}
     >
       <div className={styles.task}>
         <div className={styles.task_main}>
           <Checkbox
             checked={isComplete}
-            onClick={() => handleCompleteTask(taskIndex, title, !isComplete)}
-            label={!isEditing && title}
-          />
+            onChange={() => handleCompleteTask(taskIndex, title, !isComplete)}
+            styles={checkboxStyles}
+          >
+            {!isEditing && title}
+          </Checkbox>
           {isEditing && (
-            <Input
-              type="text"
-              defaultValue={title}
-              inputVariant="input"
-              onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                handleEditTaskInput(event.target.value)
-              }
-              errorMessage={validation.message}
-            />
+            <Form.Item
+              name="task-name"
+              rules={[
+                { required: true, message: "Это поле не может быть пустым!" },
+                { max: 64, message: "Максимальная длина текста 64 символа!" },
+                { min: 2, message: "Минимальная длина текста 2 символа!" },
+              ]}
+              style={{ width: "100%", height: "10px"}}
+            >
+              <Input
+                type="text"
+                defaultValue={title}
+                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+                  handleEditTaskInput(event.target.value)
+                }
+              />
+            </Form.Item>
           )}
         </div>
         {isEditing ? (
           <div className={styles.task_buttons}>
-            <IconButton
-              variant="primary"
-              type="submit"
-              disabled={validation.isValid}
-            >
-              <ConfirmIcon />
-            </IconButton>
-            <IconButton
-              variant="secoundary"
-              type="button"
+            <Button
+              style={{ padding: "1.1rem 1.4rem" }}
+              type="primary"
+              htmlType="submit"
+              icon={
+                <CheckCircleOutlined
+                  style={{ fontSize: "20px", color: "white" }}
+                />
+              }
+            />
+            <Button
+              style={{ padding: "1.1rem 1.4rem" }}
+              color="geekblue"
+              icon={
+                <CloseCircleOutlined
+                  style={{ fontSize: "20px", color: "black" }}
+                />
+              }
               onClick={() => setIsEditing(false)}
-            >
-              <CancelIcon />
-            </IconButton>
+            />
           </div>
         ) : (
           <div className={styles.task_buttons}>
-            <IconButton
-              variant="primary"
+            <Button
               onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
                 handleEditConfirmation(event);
               }}
-              type="button"
-            >
-              <EditIcon />
-            </IconButton>
-            <IconButton
-              variant="danger"
-              type="button"
+              style={{ padding: "1.1rem 1.4rem" }}
+              type="primary"
+              icon={
+                <EditOutlined style={{ fontSize: "20px", color: "white" }} />
+              }
+            />
+            <Button
               onClick={() => handleDeleteTask(taskIndex)}
-            >
-              <DeleteIcon />
-            </IconButton>
+              style={{ padding: "1.1rem 1.4rem" }}
+              type="primary"
+              icon={
+                <DeleteOutlined style={{ fontSize: "20px", color: "white" }} />
+              }
+              danger
+            />
           </div>
         )}
       </div>
-    </form>
+    </Form>
   );
 };

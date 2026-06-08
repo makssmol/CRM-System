@@ -7,14 +7,14 @@
   margin: 0.5rem;
   box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.2);
   margin-bottom: 0.7rem;
-  
+  height: 5rem;
+  align-items: center;
 }
 
 .task_main {
   display: flex;
   flex-direction: row wrap;
   align-items: center;
-  gap: 1rem;
   width: 15rem;
   max-width: 80%;
 
@@ -30,4 +30,9 @@
 .task_buttons {
   display: flex;
   gap: 1rem;
+}
+
+.round_checkbox .ant-checkbox-inner {
+  border-radius: 50%;
+  background-color: aquamarine;
 }

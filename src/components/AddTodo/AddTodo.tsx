@@ -1,8 +1,7 @@
 import styles from "./AddTodo.module.css";
-import { Button, Input } from "../../ui";
 import { createNewTask } from "../../api/todoApi";
 import { useState, useEffect } from "react";
-import { validateTitle } from "../../util/validateTitle";
+import { Button, Input, Form} from "antd";
 
 export const AddTodo: React.FC<{
   updateTodo: () => void;
@@ -10,37 +9,17 @@ export const AddTodo: React.FC<{
   const { updateTodo } = props;
   const [taskText, setTaskText] = useState<string>("");
   const [error, setError] = useState<string | null>();
-  const [validation, setValidation] = useState({
-    isValid: true,
-    message: "",
-  });
 
   function handleTaskInput(title: string): void {
-    //Здесь я добавил обновление стейта чтобы кнопка перманентно не дизейблилась
-    setValidation({
-      isValid: true,
-      message: "",
-    });
     setTaskText(title);
   }
 
-  async function handleAddTask(
-    event: React.SubmitEvent<HTMLFormElement>,
-    title: string
-  ): Promise<void> {
-    event.preventDefault();
-    if (!title) {
-      return;
-    }
-    // в правке он говорил про валидацию на саббмит + хендлер для кнопки не давал вызвать саббмит 
-    // так что я вставил валидацию сюда и оно норм работает 
-    const valid = validateTitle(title);
-    setValidation(valid)
-    if (!valid.isValid) {
+  async function handleAddTask(taskText: string): Promise<void> {
+    if (!taskText) {
       return;
     }
     try {
-      await createNewTask(title);
+      await createNewTask(taskText);
       await updateTodo();
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -49,6 +28,7 @@ export const AddTodo: React.FC<{
     }
   }
 
+
   useEffect(() => {
     if (error) {
       alert(error);
@@ -56,23 +36,31 @@ export const AddTodo: React.FC<{
   }, [error]);
 
   return (
-    <form
-      onSubmit={(event: React.SubmitEvent<HTMLFormElement>) => {
-        handleAddTask(event, taskText);
-      }}
-    >
+    <Form onFinish={() => handleAddTask(taskText)}>
       <div className={styles.header}>
-        <Input
-          inputVariant="input"
-          onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-            handleTaskInput(event.target.value)
-          }
-          placeholder="Задача на выполнение..."
-          type="text"
-          errorMessage={validation.message}
-        />
-        <Button disabled={validation.isValid}>Добавить</Button>
+        <Form.Item
+          name="task-name"
+          rules={[
+            { required: true, message: "Это поле не может быть пустым!" },
+            { max: 64, message: "Максимальная длина текста 64 символа!" },
+            { min: 2, message: "Минимальная длина текста 2 символа!" },
+          ]}
+          style={{ width: "100%", height: "20px" }}
+        >
+          <Input
+            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
+              handleTaskInput(event.target.value)
+            }
+            placeholder="Задача на выполнение..."
+            variant="underlined"
+            className={styles.input}
+          />
+        </Form.Item>
+
+        <Button type="primary" size="large" htmlType="submit">
+          Добавить
+        </Button>
       </div>
-    </form>
+    </Form>
   );
 };
