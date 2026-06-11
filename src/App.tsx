@@ -1,36 +1,23 @@
-import { ProfileOutlined, UserOutlined } from "@ant-design/icons";
-import { TodoListPage } from "./page/TodoListPage";
-import { Layout, Menu } from "antd";
+import { TodoListPage } from "./pages/TodoListPage";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
+import { RootLayout } from "./pages/RootPage/RootPage";
 
-const { Content, Sider } = Layout;
 
-const items = [
+const router = createBrowserRouter([
   {
-    key: 1,
-    icon: <ProfileOutlined />,
-    label: "Список задач",
+    path: "/",
+    element: <RootLayout />,
+    children: [
+      { index: true, element: <TodoListPage /> },
+      { path: "profile", element: <ProfilePage /> },
+    ],
   },
-  { key: 2, icon: <UserOutlined />, label: "Профиль" },
-];
+]);
+
 
 function App() {
-  return (
-    <Layout style={{ width: "100%", minHeight: "100%", position: "absolute"}}>
-      <Sider>
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-          items={items}
-        />
-      </Sider>
-      <Layout>
-        <Content>
-          <TodoListPage />
-        </Content>
-      </Layout>
-    </Layout>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

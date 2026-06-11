@@ -1,7 +1,7 @@
 import styles from "./AddTodo.module.css";
 import { createNewTask } from "../../api/todoApi";
 import { useState, useEffect } from "react";
-import { Button, Input, Form} from "antd";
+import { Button, Input, Form } from "antd";
 
 export const AddTodo: React.FC<{
   updateTodo: () => void;
@@ -28,7 +28,6 @@ export const AddTodo: React.FC<{
     }
   }
 
-
   useEffect(() => {
     if (error) {
       alert(error);
@@ -36,7 +35,7 @@ export const AddTodo: React.FC<{
   }, [error]);
 
   return (
-    <Form onFinish={() => handleAddTask(taskText)}>
+    <Form onFinish={() => handleAddTask(taskText) }>
       <div className={styles.header}>
         <Form.Item
           name="task-name"
@@ -57,9 +56,11 @@ export const AddTodo: React.FC<{
           />
         </Form.Item>
 
-        <Button type="primary" size="large" htmlType="submit">
-          Добавить
-        </Button>
+        <Form.Item>
+          <Button type="primary" size="large" htmlType="submit">
+            Добавить
+          </Button>
+        </Form.Item>
       </div>
     </Form>
   );

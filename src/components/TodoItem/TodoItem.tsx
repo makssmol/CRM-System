@@ -2,7 +2,7 @@ import styles from "./TodoItem.module.css";
 import React, { useState, useEffect } from "react";
 import { deleteTask, changeTask } from "../../api/todoApi";
 import type { CheckboxProps, FormProps } from "antd";
-import { Checkbox, Button, Input, Form } from "antd";
+import { Checkbox, Button, Input, Form, Typography } from "antd";
 import {
   CheckCircleOutlined,
   CloseCircleOutlined,
@@ -82,11 +82,23 @@ export const TodoItem: React.FC<{
     setIsEditing(true);
   }
 
-  
   const styleObject: FormProps["styles"] = {
     helpItem: {
       fontSize: "11px",
     },
+  };
+
+  const styleFormItems = {
+    height: "10px",
+  };
+
+  const btnStyle = {
+    padding: "1.1rem 1.4rem",
+  };
+
+  const iconStyle = {
+    fontSize: "20px",
+    color: "white",
   };
 
   useEffect(() => {
@@ -104,13 +116,17 @@ export const TodoItem: React.FC<{
     >
       <div className={styles.task}>
         <div className={styles.task_main}>
-          <Checkbox
-            checked={isComplete}
-            onChange={() => handleCompleteTask(taskIndex, title, !isComplete)}
-            styles={checkboxStyles}
-          >
-            {!isEditing && title}
-          </Checkbox>
+          <Form.Item style={{ height: "7px" }}>
+            <Checkbox
+              checked={isComplete}
+              onChange={() => handleCompleteTask(taskIndex, title, !isComplete)}
+              styles={checkboxStyles}
+              className="truncate"
+            >
+              <Typography.Text ellipsis>{!isEditing && title}</Typography.Text>
+            </Checkbox>
+          </Form.Item>
+
           {isEditing && (
             <Form.Item
               name="task-name"
@@ -119,7 +135,7 @@ export const TodoItem: React.FC<{
                 { max: 64, message: "Максимальная длина текста 64 символа!" },
                 { min: 2, message: "Минимальная длина текста 2 символа!" },
               ]}
-              style={{ width: "100%", height: "10px"}}
+              style={{ width: "100%", height: "10px" }}
             >
               <Input
                 type="text"
@@ -133,48 +149,50 @@ export const TodoItem: React.FC<{
         </div>
         {isEditing ? (
           <div className={styles.task_buttons}>
-            <Button
-              style={{ padding: "1.1rem 1.4rem" }}
-              type="primary"
-              htmlType="submit"
-              icon={
-                <CheckCircleOutlined
-                  style={{ fontSize: "20px", color: "white" }}
-                />
-              }
-            />
-            <Button
-              style={{ padding: "1.1rem 1.4rem" }}
-              color="geekblue"
-              icon={
-                <CloseCircleOutlined
-                  style={{ fontSize: "20px", color: "black" }}
-                />
-              }
-              onClick={() => setIsEditing(false)}
-            />
+            <Form.Item style={styleFormItems}>
+              <Button
+                style={btnStyle}
+                type="primary"
+                htmlType="submit"
+                icon={<CheckCircleOutlined style={iconStyle} />}
+              />
+            </Form.Item>
+
+            <Form.Item style={styleFormItems}>
+              <Button
+                style={btnStyle}
+                color="geekblue"
+                icon={
+                  <CloseCircleOutlined
+                    style={{ fontSize: "20px", color: "black" }}
+                  />
+                }
+                onClick={() => setIsEditing(false)}
+              />
+            </Form.Item>
           </div>
         ) : (
           <div className={styles.task_buttons}>
-            <Button
-              onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                handleEditConfirmation(event);
-              }}
-              style={{ padding: "1.1rem 1.4rem" }}
-              type="primary"
-              icon={
-                <EditOutlined style={{ fontSize: "20px", color: "white" }} />
-              }
-            />
-            <Button
-              onClick={() => handleDeleteTask(taskIndex)}
-              style={{ padding: "1.1rem 1.4rem" }}
-              type="primary"
-              icon={
-                <DeleteOutlined style={{ fontSize: "20px", color: "white" }} />
-              }
-              danger
-            />
+            <Form.Item style={styleFormItems}>
+              <Button
+                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
+                  handleEditConfirmation(event);
+                }}
+                style={btnStyle}
+                type="primary"
+                icon={<EditOutlined style={iconStyle} />}
+              />
+            </Form.Item>
+
+            <Form.Item style={styleFormItems}>
+              <Button
+                onClick={() => handleDeleteTask(taskIndex)}
+                style={btnStyle}
+                type="primary"
+                icon={<DeleteOutlined style={iconStyle} />}
+                danger
+              />
+            </Form.Item>
           </div>
         )}
       </div>

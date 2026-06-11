@@ -32,7 +32,3 @@
   gap: 1rem;
 }
 
-.round_checkbox .ant-checkbox-inner {
-  border-radius: 50%;
-  background-color: aquamarine;
-}

@@ -34,7 +34,7 @@ export const TodoListPage: React.FC = () => {
       setIsFetching(false);
     }
   }
-
+  
   useEffect(() => {
     handleLoadTask(selectedTask);
     if (error) {

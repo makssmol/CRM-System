@@ -4,6 +4,12 @@ import { Tabs } from "antd";
 import type { TabsProps } from "antd";
 import { useState } from "react";
 
+enum todoFIlter{
+  'all',
+  'completed', 
+  'inWork'
+}
+
 const STATUS_LABELS = {
   all: "Все",
   completed: "Выполненные",
@@ -34,9 +40,15 @@ export const TodoTabs: React.FC<{
     };
   });
 
+  function isTodoStatus(key: string | todoFIlter): key is todoFIlter{
+    return key in todoFIlter
+  }
+
   function handleTabChange(key: string) {
     setActiveKey(key);
-    setSelectedTask(key as TodoFilter);
+    if(isTodoStatus(key)){
+      setSelectedTask(key)
+    }
   }
 
 

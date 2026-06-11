@@ -1,57 +1,54 @@
 import type {
   Todo,
-  TodoRequest,
   MetaResponse,
   TodoFilter,
   TodoInfo,
+  TodoRequest,
 } from "../types/basicTypes";
+import axios from "axios";
 
 const todoURL = "https://easydev.club/api/v1/todos";
 
 export async function fetchTasks(
   taskFilter: TodoFilter
 ): Promise<MetaResponse<Todo, TodoInfo>> {
-  const response = await fetch(`${todoURL}?filter=${taskFilter}`);
-  const resData: MetaResponse<Todo, TodoInfo> = await response.json();
+  const response = await axios.get<MetaResponse<Todo, TodoInfo>>(
+    `${todoURL}?filter=${taskFilter}`
+  );
 
-  if (!response.ok) {
+  if (!response) {
     throw new Error("Не удалось загрузить задачи");
   }
-
-  return resData;
+  console.log("response: ", response);
+  return response.data;
 }
 
-export async function createNewTask(title: string): Promise<string> {
-  const response = await fetch(todoURL, {
-    method: "POST",
-    body: JSON.stringify({ title: title, isDone: false }),
+export async function createNewTask(title: string): Promise<TodoRequest> {
+  const response = await axios.post<TodoRequest>(todoURL, {
+    title: title,
     headers: {
       "Content-Type": "application/json",
     },
   });
-  const resData: Todo = await response.json();
 
-  if (!response.ok) {
+  if (!response) {
     throw new Error("Не удалось добавить задачу");
   }
 
-  return resData.title;
+  return response.data;
 }
 
-export async function deleteTask(id: number): Promise<Todo> {
-  const response = await fetch(`${todoURL}/${id}`, {
-    method: "DELETE",
+export async function deleteTask(id: number): Promise<TodoRequest> {
+  const response = await axios.delete<TodoRequest>(`${todoURL}/${id}`, {
     headers: {
       "Content-Type": "application/json",
     },
   });
-  const text = await response.text();
-  const resData: Todo = text ? JSON.parse(text) : {};
 
-  if (!response.ok) {
+  if (!response) {
     throw new Error("Не удалось удалить задачу");
   }
-  return resData;
+  return response.data;
 }
 
 export async function changeTask(
@@ -59,18 +56,17 @@ export async function changeTask(
   title: string,
   isDone: boolean
 ): Promise<string> {
-  const response = await fetch(`${todoURL}/${id}`, {
-    method: "PUT",
-    body: JSON.stringify({ title: title, isDone: isDone }),
+  const response = await axios.put<string>(`${todoURL}/${id}`, {
+    title: title,
     headers: {
       "Content-Type": "application/json",
     },
+    isDone: isDone,
   });
-  const resData: Todo = await response.json();
 
-  if (!response.ok) {
+  if (!response) {
     throw new Error("Не удалось отредактировать задачу");
   }
 
-  return resData.title;
+  return response.data;
 }
