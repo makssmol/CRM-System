@@ -109,9 +109,7 @@ export const TodoItem: React.FC<{
 
   return (
     <Form
-      onFinish={() => {
-        handleEditTask(taskIndex, editedTitle, isComplete);
-      }}
+      onFinish={() => handleEditTask(taskIndex, editedTitle, isComplete)}
       styles={styleObject}
     >
       <div className={styles.task}>
@@ -136,10 +134,10 @@ export const TodoItem: React.FC<{
                 { min: 2, message: "Минимальная длина текста 2 символа!" },
               ]}
               style={{ width: "100%", height: "10px" }}
+              initialValue={title}
             >
               <Input
                 type="text"
-                defaultValue={title}
                 onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
                   handleEditTaskInput(event.target.value)
                 }

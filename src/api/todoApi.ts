@@ -19,7 +19,6 @@ export async function fetchTasks(
   if (!response) {
     throw new Error("Не удалось загрузить задачи");
   }
-  console.log("response: ", response);
   return response.data;
 }
 

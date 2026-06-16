@@ -11,13 +11,11 @@ import {
 
 export const TodoListPage: React.FC = () => {
   const [selectedTask, setSelectedTask] = useState<TodoFilter>("all");
-  const [isFetching, setIsFetching] = useState<boolean>(false);
   const [task, setTask] = useState<Todo[]>([]);
   const [info, setInfo] = useState<TodoInfo | null>();
   const [error, setError] = useState<string | null>();
 
   async function handleLoadTask(filter: TodoFilter): Promise<void> {
-    setIsFetching(true);
     setError(null);
 
     try {
@@ -30,16 +28,19 @@ export const TodoListPage: React.FC = () => {
         setTask([]);
         setInfo(null);
       }
-    } finally {
-      setIsFetching(false);
-    }
+    } 
   }
   
   useEffect(() => {
     handleLoadTask(selectedTask);
-    if (error) {
-      alert(error);
+
+    const interval = setInterval(() => {
+      handleLoadTask(selectedTask)
+    }, 5000)
+    if(error){
+      alert(error)
     }
+    return () => clearInterval(interval)
   }, [selectedTask, error]);
 
   if (!task || !info) {
@@ -57,7 +58,6 @@ export const TodoListPage: React.FC = () => {
         />
         <TodoList
           updateTodo={() => handleLoadTask(selectedTask)}
-          isFetching={isFetching}
           task={task}
         />
       </div>
