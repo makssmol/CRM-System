@@ -8,13 +8,21 @@ import type {
 import axios from "axios";
 
 const todoURL = "https://easydev.club/api/v1/todos";
+const instance = axios.create({
+  baseURL: todoURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 export async function fetchTasks(
-  taskFilter: TodoFilter
+  filter: TodoFilter
 ): Promise<MetaResponse<Todo, TodoInfo>> {
-  const response = await axios.get<MetaResponse<Todo, TodoInfo>>(
-    `${todoURL}?filter=${taskFilter}`
-  );
+  const response = await instance.get<MetaResponse<Todo, TodoInfo>>("", {
+    params: {
+      filter,
+    },
+  });
 
   if (!response) {
     throw new Error("Не удалось загрузить задачи");
@@ -23,11 +31,8 @@ export async function fetchTasks(
 }
 
 export async function createNewTask(title: string): Promise<TodoRequest> {
-  const response = await axios.post<TodoRequest>(todoURL, {
+  const response = await instance.post<TodoRequest>("", {
     title: title,
-    headers: {
-      "Content-Type": "application/json",
-    },
   });
 
   if (!response) {
@@ -38,15 +43,12 @@ export async function createNewTask(title: string): Promise<TodoRequest> {
 }
 
 export async function deleteTask(id: number): Promise<TodoRequest> {
-  const response = await axios.delete<TodoRequest>(`${todoURL}/${id}`, {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  const response = await instance.delete<TodoRequest>(`/${id}`);
 
   if (!response) {
     throw new Error("Не удалось удалить задачу");
   }
+  console.log("response: ", response);
   return response.data;
 }
 
@@ -55,11 +57,8 @@ export async function changeTask(
   title: string,
   isDone: boolean
 ): Promise<string> {
-  const response = await axios.put<string>(`${todoURL}/${id}`, {
+  const response = await instance.put<string>(`/${id}`, {
     title: title,
-    headers: {
-      "Content-Type": "application/json",
-    },
     isDone: isDone,
   });
 
