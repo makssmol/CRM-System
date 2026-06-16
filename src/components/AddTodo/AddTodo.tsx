@@ -14,12 +14,12 @@ export const AddTodo: React.FC<{
     setTaskText(title);
   }
 
-  async function handleAddTask(title: string): Promise<void> {
-    if (!title) {
+  async function handleAddTask(taskText: string): Promise<void> {
+    if (!taskText) {
       return;
     }
     try {
-      await createNewTask(title);
+      await createNewTask(taskText);
       await updateTodo();
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -38,12 +38,13 @@ export const AddTodo: React.FC<{
     <Form onFinish={() => handleAddTask(taskText)}>
       <div className={styles.header}>
         <Form.Item
+          name="task-name"
           rules={[
             { required: true, message: "Это поле не может быть пустым!" },
             { max: 64, message: "Максимальная длина текста 64 символа!" },
             { min: 2, message: "Минимальная длина текста 2 символа!" },
           ]}
-          style={{ width: "100%", height: "20px" }}
+          style={{ width: "100%", height: "30px" }}
         >
           <Input
             onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
@@ -55,11 +56,9 @@ export const AddTodo: React.FC<{
           />
         </Form.Item>
 
-        <Form.Item>
-          <Button type="primary" size="large" htmlType="submit">
-            Добавить
-          </Button>
-        </Form.Item>
+        <Button type="primary" size="large" htmlType="submit">
+          Добавить
+        </Button>
       </div>
     </Form>
   );
