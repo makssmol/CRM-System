@@ -2,7 +2,7 @@ import styles from "./Tabs.module.css";
 import type { TodoInfo, TodoFilter } from "../../types/basicTypes";
 import { Tabs } from "antd";
 import type { TabsProps } from "antd";
-import { useState } from "react";
+import { memo, useState } from "react";
 
 enum todoFIlter {
   "all",
@@ -26,7 +26,7 @@ export const TodoTabs: React.FC<{
   info: TodoInfo;
   selectedTask: TodoFilter;
   setSelectedTask: (status: TodoFilter) => void;
-}> = (props) => {
+}> = memo((props) => {
   const { info, setSelectedTask } = props;
   const [activeKey, setActiveKey] = useState("all");
 
@@ -62,4 +62,4 @@ export const TodoTabs: React.FC<{
       />
     </div>
   );
-};
+});

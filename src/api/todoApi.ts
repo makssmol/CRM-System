@@ -48,7 +48,7 @@ export async function deleteTask(id: number): Promise<TodoRequest> {
   if (!response) {
     throw new Error("Не удалось удалить задачу");
   }
-  console.log("response: ", response);
+  
   return response.data;
 }
 

@@ -33,9 +33,11 @@ export const TodoItem: React.FC<{
     isDone: boolean
   ): Promise<void> {
     setIsEditing(true);
+
     if (!title) {
       return;
     }
+
     try {
       await changeTask(id, title, isDone);
       await updateTodo();
@@ -129,9 +131,10 @@ export const TodoItem: React.FC<{
             <Form.Item
               name="task-name"
               rules={[
-                { required: true, message: "Это поле не может быть пустым!" },
+                { required: true, message: "Заполните поле!" },
                 { max: 64, message: "Максимальная длина текста 64 символа!" },
                 { min: 2, message: "Минимальная длина текста 2 символа!" },
+                { whitespace: true, message: "" },
               ]}
               style={{ width: "100%", height: "10px" }}
               initialValue={title}

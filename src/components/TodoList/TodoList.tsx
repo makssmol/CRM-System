@@ -1,11 +1,12 @@
 import type React from "react";
 import { TodoItem } from "../TodoItem";
 import type { Todo } from "../../types/basicTypes";
+import { memo } from "react";
 
 export const TodoList: React.FC<{
   updateTodo: () => void;
   task: Todo[];
-}> = (props) => {
+}> = memo((props) => {
   const { updateTodo, task } = props;
   return (
     <>
@@ -20,4 +21,4 @@ export const TodoList: React.FC<{
       ))}
     </>
   );
-};
+});
