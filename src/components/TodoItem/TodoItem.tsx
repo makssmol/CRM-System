@@ -16,6 +16,25 @@ const checkboxStyles: CheckboxProps["styles"] = {
   },
 };
 
+const styleObject: FormProps["styles"] = {
+  helpItem: {
+    fontSize: "11px",
+  },
+};
+
+const styleFormItems = {
+  height: "10px",
+};
+
+const btnStyle = {
+  padding: "1.1rem 1.4rem",
+};
+
+const iconStyle = {
+  fontSize: "20px",
+  color: "white",
+};
+
 export const TodoItem: React.FC<{
   taskIndex: number;
   title: string;
@@ -84,25 +103,6 @@ export const TodoItem: React.FC<{
     setIsEditing(true);
   }
 
-  const styleObject: FormProps["styles"] = {
-    helpItem: {
-      fontSize: "11px",
-    },
-  };
-
-  const styleFormItems = {
-    height: "10px",
-  };
-
-  const btnStyle = {
-    padding: "1.1rem 1.4rem",
-  };
-
-  const iconStyle = {
-    fontSize: "20px",
-    color: "white",
-  };
-
   useEffect(() => {
     if (error) {
       alert(error);
@@ -138,6 +138,7 @@ export const TodoItem: React.FC<{
               ]}
               style={{ width: "100%", height: "10px" }}
               initialValue={title}
+              preserve = {false}
             >
               <Input
                 type="text"
