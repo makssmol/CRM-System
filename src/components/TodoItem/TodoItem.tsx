@@ -123,7 +123,7 @@ export const TodoItem: React.FC<{
               styles={checkboxStyles}
               className="truncate"
             >
-              <Typography.Text ellipsis>{!isEditing && title}</Typography.Text>
+              <Typography.Text className={isComplete ? 'completedTask' : ""} ellipsis>{!isEditing && title}</Typography.Text>
             </Checkbox>
           </Form.Item>
 
@@ -138,7 +138,7 @@ export const TodoItem: React.FC<{
               ]}
               style={{ width: "100%", height: "10px" }}
               initialValue={title}
-              preserve = {false}
+              preserve={false}
             >
               <Input
                 type="text"
