@@ -7,7 +7,7 @@ import type {
 } from "../types/basicTypes";
 import axios from "axios";
 
-const todoURL = "https://easydev.club/api/v1/todos";
+const todoURL = "https://easydev.club/api/v1";
 const instance = axios.create({
   baseURL: todoURL,
   headers: {
@@ -18,38 +18,25 @@ const instance = axios.create({
 export async function fetchTasks(
   filter: TodoFilter
 ): Promise<MetaResponse<Todo, TodoInfo>> {
-  const response = await instance.get<MetaResponse<Todo, TodoInfo>>("", {
+  const response = await instance.get<MetaResponse<Todo, TodoInfo>>("todos", {
     params: {
       filter,
     },
   });
 
-  if (!response) {
-    throw new Error("Не удалось загрузить задачи");
-  }
   return response.data;
 }
 
 export async function createNewTask(title: string): Promise<TodoRequest> {
-  const response = await instance.post<TodoRequest>("", {
+  const response = await instance.post<TodoRequest>("todos", {
     title: title,
   });
-
-  if (!response) {
-    throw new Error("Не удалось добавить задачу");
-  }
 
   return response.data;
 }
 
-export async function deleteTask(id: number): Promise<TodoRequest> {
-  const response = await instance.delete<TodoRequest>(`/${id}`);
-
-  if (!response) {
-    throw new Error("Не удалось удалить задачу");
-  }
-  
-  return response.data;
+export async function deleteTask(id: number): Promise<void> {
+  await instance.delete<TodoRequest>(`todos/${id}`);
 }
 
 export async function changeTask(
@@ -57,14 +44,10 @@ export async function changeTask(
   title: string,
   isDone: boolean
 ): Promise<string> {
-  const response = await instance.put<string>(`/${id}`, {
+  const response = await instance.put<string>(`todos/${id}`, {
     title: title,
     isDone: isDone,
   });
-
-  if (!response) {
-    throw new Error("Не удалось отредактировать задачу");
-  }
 
   return response.data;
 }
