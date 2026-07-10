@@ -9,6 +9,7 @@ import {
   type TodoFilter,
 } from "../../types/basicTypes";
 
+
 export const TodoListPage: React.FC = () => {
   const [selectedTask, setSelectedTask] = useState<TodoFilter>("all");
   const [task, setTask] = useState<Todo[]>([]);
@@ -18,7 +19,6 @@ export const TodoListPage: React.FC = () => {
   const handleLoadTask = useCallback(
     async (filter: TodoFilter): Promise<void> => {
       setError(null);
-
       try {
         const taskData: MetaResponse<Todo, TodoInfo> = await fetchTasks(filter);
         setTask(taskData.data || []);
@@ -41,12 +41,12 @@ export const TodoListPage: React.FC = () => {
   useEffect(() => {
     handleLoadTask(selectedTask);
 
-    const interval = setInterval(() => {
-      handleLoadTask(selectedTask);
-    }, 5000);
+    const interval = setInterval(handleLoadTask, 5000, selectedTask);
+
     if (error) {
       alert(error);
     }
+
     return () => clearInterval(interval);
   }, [selectedTask]);
 

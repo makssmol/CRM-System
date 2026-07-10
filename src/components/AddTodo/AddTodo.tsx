@@ -2,24 +2,20 @@ import styles from "./AddTodo.module.css";
 import { createNewTask } from "../../api/todoApi";
 import { useState, useEffect } from "react";
 import { Button, Input, Form } from "antd";
+import { minTaskChars, maxTaskChars } from "../../constants/constants";
 
 export const AddTodo: React.FC<{
   updateTodo: () => void;
 }> = (props) => {
   const { updateTodo } = props;
-  const [taskText, setTaskText] = useState<string>("");
   const [error, setError] = useState<string | null>();
 
-  function handleTaskInput(title: string): void {
-    setTaskText(title);
-  }
-
-  async function handleAddTask(taskText: string): Promise<void> {
-    if (!taskText) {
+  async function handleAddTask(value: { taskText: string }): Promise<void> {
+    if (!value) {
       return;
     }
     try {
-      await createNewTask(taskText);
+      await createNewTask(value.taskText);
       await updateTodo();
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -35,22 +31,35 @@ export const AddTodo: React.FC<{
   }, [error]);
 
   return (
-    <Form onFinish={() => handleAddTask(taskText)}>
+    <Form onFinish={handleAddTask} name="taskname">
       <div className={styles.header}>
         <Form.Item
-          name="task-name"
+          name="taskText"
+          validateFirst={true}
+          normalize={(value) => value.trimStart()}
           rules={[
+            {
+              whitespace: true,
+              message: "Текст задачи не может быть пустым!",
+            },
             { required: true, message: "Заполните поле!" },
-            { max: 64, message: "Максимальная длина текста 64 символа!" },
-            { min: 2, message: "Минимальная длина текста 2 символа!" },
-            { whitespace: true, message: "" },
+            {
+              max: maxTaskChars,
+              message: "Максимальная длина текста 64 символа!",
+            },
+            {
+              min: minTaskChars,
+              validator(_, value) {
+                if (value.trim().length <= 1) {
+                  return Promise.reject("Минимальная длина текста 2 символа!");
+                }
+                return Promise.resolve();
+              },
+            },
           ]}
           style={{ width: "100%", height: "40px" }}
         >
           <Input
-            onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-              handleTaskInput(event.target.value)
-            }
             placeholder="Задача на выполнение..."
             variant="underlined"
             className={styles.input}

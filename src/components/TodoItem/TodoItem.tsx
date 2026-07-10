@@ -9,6 +9,7 @@ import {
   DeleteOutlined,
   EditOutlined,
 } from "@ant-design/icons";
+import { minTaskChars, maxTaskChars } from "../../constants/constants";
 
 const checkboxStyles: CheckboxProps["styles"] = {
   icon: {
@@ -42,23 +43,22 @@ export const TodoItem: React.FC<{
   updateTodo: () => void;
 }> = (props) => {
   const { taskIndex, title, isComplete, updateTodo } = props;
-  const [editedTitle, setEditedTitle] = useState<string>(title);
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [error, setError] = useState<string | null>();
 
   async function handleEditTask(
     id: number,
-    title: string,
+    value: { taskText: string },
     isDone: boolean
   ): Promise<void> {
     setIsEditing(true);
 
-    if (!title) {
+    if (!value) {
       return;
     }
 
     try {
-      await changeTask(id, title, isDone);
+      await changeTask(id, value.taskText, isDone);
       await updateTodo();
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -94,10 +94,6 @@ export const TodoItem: React.FC<{
     }
   }
 
-  function handleEditTaskInput(title: string): void {
-    setEditedTitle(title);
-  }
-
   function handleEditConfirmation(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
     setIsEditing(true);
@@ -111,7 +107,9 @@ export const TodoItem: React.FC<{
 
   return (
     <Form
-      onFinish={() => handleEditTask(taskIndex, editedTitle, isComplete)}
+      onFinish={(value: { taskText: string }) =>
+        handleEditTask(taskIndex, value, isComplete)
+      }
       styles={styleObject}
     >
       <div className={styles.task}>
@@ -123,29 +121,45 @@ export const TodoItem: React.FC<{
               styles={checkboxStyles}
               className="truncate"
             >
-              <Typography.Text className={isComplete ? 'completedTask' : ""} ellipsis>{!isEditing && title}</Typography.Text>
+              <Typography.Text
+                className={isComplete ? "completedTask" : ""}
+                ellipsis
+              >
+                {!isEditing && title}
+              </Typography.Text>
             </Checkbox>
           </Form.Item>
 
           {isEditing && (
             <Form.Item
-              name="task-name"
+              name="taskText"
+              validateFirst={true}
+              normalize={(value) => value.trimStart()}
               rules={[
+                {
+                  whitespace: true,
+                  message: "Текст задачи не может быть пустым!",
+                },
                 { required: true, message: "Заполните поле!" },
-                { max: 64, message: "Максимальная длина текста 64 символа!" },
-                { min: 2, message: "Минимальная длина текста 2 символа!" },
-                { whitespace: true, message: "" },
+                {
+                  max: maxTaskChars,
+                  message: "Максимальная длина текста 64 символа!",
+                },
+                {
+                  min: minTaskChars,
+                  validator(_, value){
+                    if(value.trim().length <= 1){
+                      return Promise.reject("Минимальная длина текста 2 символа!")
+                    }
+                    return Promise.resolve();
+                  }
+                },
               ]}
               style={{ width: "100%", height: "10px" }}
               initialValue={title}
               preserve={false}
             >
-              <Input
-                type="text"
-                onChange={(event: React.ChangeEvent<HTMLInputElement>) =>
-                  handleEditTaskInput(event.target.value)
-                }
-              />
+              <Input type="text" />
             </Form.Item>
           )}
         </div>
@@ -177,9 +191,7 @@ export const TodoItem: React.FC<{
           <div className={styles.task_buttons}>
             <Form.Item style={styleFormItems}>
               <Button
-                onClick={(event: React.MouseEvent<HTMLButtonElement>) => {
-                  handleEditConfirmation(event);
-                }}
+                onClick={handleEditConfirmation}
                 style={btnStyle}
                 type="primary"
                 icon={<EditOutlined style={iconStyle} />}
