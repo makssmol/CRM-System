@@ -21,5 +21,4 @@ export interface MetaResponse<T, N> {
 
 export type TodoRequest = Partial<Omit<Todo, "created" | "id">>;
 
-
 export type TodoFilter = "all" | "completed" | "inWork";

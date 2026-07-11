@@ -4,7 +4,7 @@ import type {
   TodoFilter,
   TodoInfo,
   TodoRequest,
-} from "../types/basicTypes";
+} from "../types/TodoTypes";
 import axios from "axios";
 
 const todoURL = "https://easydev.club/api/v1";

@@ -1,5 +1,5 @@
 import styles from "./TodoItem.module.css";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { deleteTask, changeTask } from "../../api/todoApi";
 import type { CheckboxProps, FormProps } from "antd";
 import { Checkbox, Button, Input, Form, Typography } from "antd";
@@ -10,6 +10,7 @@ import {
   EditOutlined,
 } from "@ant-design/icons";
 import { minTaskChars, maxTaskChars } from "../../constants/constants";
+import { notification } from "antd";
 
 const checkboxStyles: CheckboxProps["styles"] = {
   icon: {
@@ -44,7 +45,6 @@ export const TodoItem: React.FC<{
 }> = (props) => {
   const { taskIndex, title, isComplete, updateTodo } = props;
   const [isEditing, setIsEditing] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>();
 
   async function handleEditTask(
     id: number,
@@ -52,17 +52,18 @@ export const TodoItem: React.FC<{
     isDone: boolean
   ): Promise<void> {
     setIsEditing(true);
-
     if (!value) {
       return;
     }
-
     try {
       await changeTask(id, value.taskText, isDone);
       await updateTodo();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setError("Не удалось отредактировать задачу");
+        notification.error({
+          message: "Ошибка!",
+          description: "Не удалось отредактировать задачу!",
+        });
       }
     }
     setIsEditing(!isEditing);
@@ -78,7 +79,10 @@ export const TodoItem: React.FC<{
       await updateTodo();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setError("Не удалось поменять статус задачи");
+        notification.error({
+            message: "Ошибка!",
+            description: "Не удалось поменять статус задачи!",
+          });
       }
     }
   }
@@ -89,7 +93,10 @@ export const TodoItem: React.FC<{
       await updateTodo();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        setError("Не удалось удалить задачу");
+        notification.error({
+            message: "Ошибка!",
+            description: "Не удалось удалить задачу!",
+          });
       }
     }
   }
@@ -99,12 +106,6 @@ export const TodoItem: React.FC<{
     setIsEditing(true);
   }
 
-  useEffect(() => {
-    if (error) {
-      alert(error);
-    }
-  }, [error]);
-
   return (
     <Form
       onFinish={(value: { taskText: string }) =>
@@ -113,7 +114,7 @@ export const TodoItem: React.FC<{
       styles={styleObject}
     >
       <div className={styles.task}>
-        <div className={styles.task_main}>
+        <div className={styles.task_title}>
           <Form.Item style={{ height: "7px" }}>
             <Checkbox
               checked={isComplete}
@@ -147,12 +148,14 @@ export const TodoItem: React.FC<{
                 },
                 {
                   min: minTaskChars,
-                  validator(_, value){
-                    if(value.trim().length <= 1){
-                      return Promise.reject("Минимальная длина текста 2 символа!")
+                  validator(_, value) {
+                    if (value.trim().length <= 1) {
+                      return Promise.reject(
+                        "Минимальная длина текста 2 символа!"
+                      );
                     }
                     return Promise.resolve();
-                  }
+                  },
                 },
               ]}
               style={{ width: "100%", height: "10px" }}

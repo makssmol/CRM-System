@@ -1,12 +1,12 @@
 import { TodoListPage } from "./pages/TodoListPage";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
-import { RootLayout } from "./pages/RootPage/RootPage";
+import { RootPage } from "./pages/RootPage/RootPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <RootLayout />,
+    element: <RootPage />,
     children: [
       { index: true, element: <TodoListPage /> },
       { path: "profile", element: <ProfilePage /> },

@@ -7,26 +7,27 @@ import {
   type TodoInfo,
   type MetaResponse,
   type TodoFilter,
-} from "../../types/basicTypes";
-
+} from "../../types/TodoTypes";
+import { notification } from "antd";
 
 export const TodoListPage: React.FC = () => {
   const [selectedTask, setSelectedTask] = useState<TodoFilter>("all");
-  const [task, setTask] = useState<Todo[]>([]);
+  const [tasks, setTasks] = useState<Todo[]>([]);
   const [info, setInfo] = useState<TodoInfo | null>();
-  const [error, setError] = useState<string | null>();
 
   const handleLoadTask = useCallback(
     async (filter: TodoFilter): Promise<void> => {
-      setError(null);
       try {
         const taskData: MetaResponse<Todo, TodoInfo> = await fetchTasks(filter);
-        setTask(taskData.data || []);
+        setTasks(taskData.data || []);
         setInfo(taskData.info);
       } catch (error: unknown) {
         if (error instanceof Error) {
-          setError("Не удалось загрузить задачи");
-          setTask([]);
+          notification.error({
+            message: "Ошибка!",
+            description: "Не удалось загрузить задачи!",
+          });
+          setTasks([]);
           setInfo(null);
         }
       }
@@ -40,17 +41,11 @@ export const TodoListPage: React.FC = () => {
 
   useEffect(() => {
     handleLoadTask(selectedTask);
-
     const interval = setInterval(handleLoadTask, 5000, selectedTask);
-
-    if (error) {
-      alert(error);
-    }
-
     return () => clearInterval(interval);
   }, [selectedTask]);
 
-  if (!task || !info) {
+  if (!tasks || !info) {
     return <p>Нет доступных задач</p>;
   }
 
@@ -60,10 +55,9 @@ export const TodoListPage: React.FC = () => {
       <div className={styles.content}>
         <TodoTabs
           info={info}
-          selectedTask={selectedTask}
           setSelectedTask={setSelectedTask}
         />
-        <TodoList updateTodo={updateTodo} task={task} />
+        <TodoList updateTodo={updateTodo} tasks={tasks} />
       </div>
     </div>
   );

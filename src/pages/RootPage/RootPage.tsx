@@ -22,7 +22,7 @@ const menuStyle = {
   },
 };
 
-export const RootLayout: React.FC = () => {
+export const RootPage: React.FC = () => {
   return (
     <>
       <Layout

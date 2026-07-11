@@ -11,7 +11,7 @@
   align-items: center;
 }
 
-.task_main {
+.task_title {
   display: flex;
   flex-direction: row wrap;
   align-items: center;
@@ -20,7 +20,7 @@
 
 }
 
-.task_main p{
+.task_title p{
   margin-right: 2.5rem;
   margin-left: 2.2rem;
   position: absolute;
