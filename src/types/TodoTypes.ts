@@ -21,12 +21,4 @@ export interface MetaResponse<T, N> {
 
 export type TodoRequest = Partial<Omit<Todo, "created" | "id">>;
 
-export interface TodoValidation {
-  validation: {
-    isValid: boolean;
-    message: string;
-  };
-  validateTitle: (title: string) => boolean;
-}
-
 export type TodoFilter = "all" | "completed" | "inWork";

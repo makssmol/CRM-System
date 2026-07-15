@@ -1,57 +1,42 @@
 import type {
   Todo,
-  TodoRequest,
   MetaResponse,
   TodoFilter,
   TodoInfo,
-} from "../types/basicTypes";
+  TodoRequest,
+} from "../types/TodoTypes";
+import axios from "axios";
 
-const todoURL = "https://easydev.club/api/v1/todos";
+const todoURL = "https://easydev.club/api/v1";
+const instance = axios.create({
+  baseURL: todoURL,
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
 
 export async function fetchTasks(
-  taskFilter: TodoFilter
+  filter: TodoFilter
 ): Promise<MetaResponse<Todo, TodoInfo>> {
-  const response = await fetch(`${todoURL}?filter=${taskFilter}`);
-  const resData: MetaResponse<Todo, TodoInfo> = await response.json();
-
-  if (!response.ok) {
-    throw new Error("Не удалось загрузить задачи");
-  }
-
-  return resData;
-}
-
-export async function createNewTask(title: string): Promise<string> {
-  const response = await fetch(todoURL, {
-    method: "POST",
-    body: JSON.stringify({ title: title, isDone: false }),
-    headers: {
-      "Content-Type": "application/json",
+  const response = await instance.get<MetaResponse<Todo, TodoInfo>>("todos", {
+    params: {
+      filter,
     },
   });
-  const resData: Todo = await response.json();
 
-  if (!response.ok) {
-    throw new Error("Не удалось добавить задачу");
-  }
-
-  return resData.title;
+  return response.data;
 }
 
-export async function deleteTask(id: number): Promise<Todo> {
-  const response = await fetch(`${todoURL}/${id}`, {
-    method: "DELETE",
-    headers: {
-      "Content-Type": "application/json",
-    },
+export async function createNewTask(title: string): Promise<TodoRequest> {
+  const response = await instance.post<TodoRequest>("todos", {
+    title: title,
   });
-  const text = await response.text();
-  const resData: Todo = text ? JSON.parse(text) : {};
 
-  if (!response.ok) {
-    throw new Error("Не удалось удалить задачу");
-  }
-  return resData;
+  return response.data;
+}
+
+export async function deleteTask(id: number): Promise<void> {
+  await instance.delete<TodoRequest>(`todos/${id}`);
 }
 
 export async function changeTask(
@@ -59,18 +44,10 @@ export async function changeTask(
   title: string,
   isDone: boolean
 ): Promise<string> {
-  const response = await fetch(`${todoURL}/${id}`, {
-    method: "PUT",
-    body: JSON.stringify({ title: title, isDone: isDone }),
-    headers: {
-      "Content-Type": "application/json",
-    },
+  const response = await instance.put<string>(`todos/${id}`, {
+    title: title,
+    isDone: isDone,
   });
-  const resData: Todo = await response.json();
 
-  if (!response.ok) {
-    throw new Error("Не удалось отредактировать задачу");
-  }
-
-  return resData.title;
+  return response.data;
 }

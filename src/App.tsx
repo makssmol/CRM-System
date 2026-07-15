@@ -1,12 +1,21 @@
-import { Layout } from "./ui";
-import { TodoListPage } from "./page/TodoListPage";
+import { TodoListPage } from "./pages/TodoListPage";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { ProfilePage } from "./pages/ProfilePage/ProfilePage";
+import { RootPage } from "./pages/RootPage/RootPage";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <RootPage />,
+    children: [
+      { index: true, element: <TodoListPage /> },
+      { path: "profile", element: <ProfilePage /> },
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <Layout>
-      <TodoListPage />
-    </Layout>
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;

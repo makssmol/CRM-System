@@ -1,5 +1,0 @@
-export * from "./TickIcon"
-export * from "./EditIcon"
-export * from "./DeleteIcon"
-export * from "./ConfirmIcon"
-export * from "./CancelIcon"

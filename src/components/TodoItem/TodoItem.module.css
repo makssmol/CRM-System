@@ -7,20 +7,20 @@
   margin: 0.5rem;
   box-shadow: 1.5px 1px 1px rgba(0, 0, 0, 0.2);
   margin-bottom: 0.7rem;
-  
+  height: 5rem;
+  align-items: center;
 }
 
-.task_main {
+.task_title {
   display: flex;
   flex-direction: row wrap;
   align-items: center;
-  gap: 1rem;
   width: 15rem;
   max-width: 80%;
 
 }
 
-.task_main p{
+.task_title p{
   margin-right: 2.5rem;
   margin-left: 2.2rem;
   position: absolute;
@@ -31,3 +31,4 @@
   display: flex;
   gap: 1rem;
 }
+

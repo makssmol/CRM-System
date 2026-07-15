@@ -1,26 +1,24 @@
 import type React from "react";
 import { TodoItem } from "../TodoItem";
-import type { Todo } from "../../types/basicTypes";
+import type { Todo } from "../../types/TodoTypes";
+import { memo } from "react";
 
 export const TodoList: React.FC<{
   updateTodo: () => void;
-  isFetching: boolean;
-  task: Todo[];
-}> = (props) => {
-  const { updateTodo, isFetching, task, } = props;
+  tasks: Todo[];
+}> = memo((props) => {
+  const { updateTodo, tasks } = props;
   return (
     <>
-      {isFetching && <p>Задачи загружаются</p>}
-      {!isFetching &&
-        task.map((data) => (
-          <TodoItem
-            key={data.id}
-            taskIndex={data.id}
-            title={data.title}
-            isComplete={data.isDone}
-            updateTodo={updateTodo}
-          />
-        ))}
+      {tasks.map((data) => (
+        <TodoItem
+          key={data.id}
+          taskIndex={data.id}
+          title={data.title}
+          isComplete={data.isDone}
+          updateTodo={updateTodo}
+        />
+      ))}
     </>
   );
-};
+});
