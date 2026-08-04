@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.header input{
+  width: 100%;
+}
+
+.input{
+  background-color: transparent; 
+  border-bottom: 1px solid rgb(111, 104, 104) ;
+}
+
+input.input::placeholder{
+  color: rgb(56, 55, 55);
+}
